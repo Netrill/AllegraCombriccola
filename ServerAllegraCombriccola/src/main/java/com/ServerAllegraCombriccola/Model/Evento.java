@@ -1,46 +1,72 @@
 package com.ServerAllegraCombriccola.Model;
 
-import java.sql.Date;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 
-@Table
+@Entity
 public class Evento {
-	
-	private UUID id;
+	@Id
+	@GeneratedValue
+	private long idEvento;
+	@Column
 	private String nome;
+	@Column
 	private String url;
-	private Date inizio,fine;
-	private Indirizzo indirizzo;
+	@Column
+	private String inizioEvento,fineEvento;
+	@Column
+	private String via;
+	@Column
+	private String indirizzo;
+	@Column
+	private String civico;
+	@Column
+	private String citta;
+	@Column
+	private String cap;
+	@Column
+	private String provincia;
+	@Column
+	private String regione;
+	@Column
 	private String descrizione;
+	@Column
 	private String immagine;
-	
-	public Evento(String nome, String url, Date inizio, Date fine, Indirizzo indirizzo,String descrizione) {
-		super();
-		id = UUID.randomUUID();
-		this.nome = nome;
-		this.url = url;
-		this.inizio = inizio;
-		this.fine = fine;
-		this.indirizzo = indirizzo;
-		this.descrizione = descrizione;
-	}
 
-	public Evento(String nome, String url, Date inizio, Date fine, Indirizzo indirizzo, String descrizione,
+	
+	public Evento () {}
+	
+	
+
+
+
+	public Evento(String nome, String url, String inizioEvento, String fineEvento, String via, String indirizzo,
+			String civico, String citta, String cap, String provincia, String regione, String descrizione,
 			String immagine) {
 		super();
-		id = UUID.randomUUID();
 		this.nome = nome;
 		this.url = url;
-		this.inizio = inizio;
-		this.fine = fine;
+		this.inizioEvento = inizioEvento;
+		this.fineEvento = fineEvento;
+		this.via = via;
 		this.indirizzo = indirizzo;
+		this.civico = civico;
+		this.citta = citta;
+		this.cap = cap;
+		this.provincia = provincia;
+		this.regione = regione;
 		this.descrizione = descrizione;
-		this.immagine= immagine;
+		this.immagine = immagine;
 	}
+
+
+
+
 
 	public String getNome() {
 		return nome;
@@ -58,28 +84,100 @@ public class Evento {
 		this.url = url;
 	}
 
-	public Date getInizio() {
-		return inizio;
+	public String getInizio() {
+		return inizioEvento;
 	}
 
-	public void setInizio(Date inizio) {
-		this.inizio = inizio;
+	public void setInizio(String inizio) {
+		this.inizioEvento = inizio;
 	}
 
-	public Date getFine() {
-		return fine;
+	public String getFine() {
+		return fineEvento;
 	}
 
-	public void setFine(Date fine) {
-		this.fine = fine;
+	public void setFine(String fine) {
+		this.fineEvento = fine;
 	}
 
-	public Indirizzo getIndirizzo() {
+	public long getIdEvento() {
+		return idEvento;
+	}
+
+	public void setIdEvento(long idEvento) {
+		this.idEvento = idEvento;
+	}
+
+	public String getInizioEvento() {
+		return inizioEvento;
+	}
+
+	public void setInizioEvento(String inizioEvento) {
+		this.inizioEvento = inizioEvento;
+	}
+
+	public String getFineEvento() {
+		return fineEvento;
+	}
+
+	public void setFineEvento(String fineEvento) {
+		this.fineEvento = fineEvento;
+	}
+
+	public String getVia() {
+		return via;
+	}
+
+	public void setVia(String via) {
+		this.via = via;
+	}
+
+	public String getIndirizzo() {
 		return indirizzo;
 	}
 
-	public void setIndirizzo(Indirizzo indirizzo) {
+	public void setIndirizzo(String indirizzo) {
 		this.indirizzo = indirizzo;
+	}
+
+	public String getCivico() {
+		return civico;
+	}
+
+	public void setCivico(String civico) {
+		this.civico = civico;
+	}
+
+	public String getCitta() {
+		return citta;
+	}
+
+	public void setCitta(String citta) {
+		this.citta = citta;
+	}
+
+	public String getCap() {
+		return cap;
+	}
+
+	public void setCap(String cap) {
+		this.cap = cap;
+	}
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	public String getRegione() {
+		return regione;
+	}
+
+	public void setRegione(String regione) {
+		this.regione = regione;
 	}
 
 	public String getDescrizione() {
@@ -97,5 +195,6 @@ public class Evento {
 	public void setImmagine(String immagine) {
 		this.immagine = immagine;
 	}
+	
 	
 }

@@ -12,9 +12,9 @@ public class EventServiceImpl implements EventService{
 	EventDao eventDao;
 	
 	@Override
-	public boolean saveEvent(String nome, String url, Date inizio, Date fine, Indirizzo indirizzo, String descrizione,
+	public boolean saveEvent(String nome, String url, String inizio, String fine, String via,String civico,String citta,String cap,String provincia,String regione, String descrizione,
 			String immagine) {
-		eventDao.saveEvent(EventBuilder.createEvent(nome,url,inizio,fine,indirizzo,descrizione,immagine));
+		eventDao.saveEvent(EventBuilder.createEvent(nome,url,inizio,fine,via,civico,citta,cap,provincia,regione,descrizione,immagine));
 		return false;
 	}
 

@@ -25,10 +25,10 @@ public class EventiRestController {
 		return new Coordinata(10,20);
 	}
 	
-	@PostMapping("/event/set")
-	void putEvent (@RequestParam String nome,@RequestParam String url,@RequestParam Date inizio,@RequestParam Date fine,@RequestParam String via,@RequestParam String civico,@RequestParam String citta,@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,@RequestParam String immagine) {
+	@PostMapping("/event/put")
+	void putEvent (@RequestParam String nome,@RequestParam String url,@RequestParam String inizio,@RequestParam String fine,@RequestParam String via,@RequestParam String civico,@RequestParam String citta,@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,@RequestParam String immagine) {
 
-		eventService.saveEvent(nome, url, inizio, fine,new Indirizzo(via,civico,citta,cap,provincia,regione), descrizione, immagine);
+		eventService.saveEvent(nome, url, inizio, fine,via,civico,citta,cap,provincia,regione, descrizione, immagine);
 	}
 	
 }

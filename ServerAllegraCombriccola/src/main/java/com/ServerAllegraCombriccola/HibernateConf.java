@@ -10,6 +10,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.ServerAllegraCombriccola.Dao.EventDao;
+import com.ServerAllegraCombriccola.Model.Evento;
+import com.ServerAllegraCombriccola.Service.EventServiceImpl;
+
 @Configuration
 @EnableTransactionManagement
 public class HibernateConf {
@@ -20,6 +24,8 @@ public class HibernateConf {
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setHibernateProperties(hibernateProperties());
         //sessionFactory.setPackagesToScan({"com.baeldung.hibernate.bootstrap.model" });
+        sessionFactory.setAnnotatedClasses(new Class[] { Evento.class });
+
         return sessionFactory;
     }
 	
@@ -32,6 +38,16 @@ public class HibernateConf {
         dataSource.setPassword("scachri86");
  
         return dataSource;
+    }
+	
+	@Bean
+    public EventDao eventDao() {
+        return new EventDao();
+    }
+	
+	@Bean
+    public EventServiceImpl eventServiceImp() {
+        return new EventServiceImpl();
     }
 	
 	private final Properties hibernateProperties() {

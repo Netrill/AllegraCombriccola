@@ -7,28 +7,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ServerAllegraCombriccola.Model.Evento;
 
 public class EventDao {
-
-	public void saveEvent(Evento createEvent) {
-		// TODO Auto-generated method stub
-		
-	}/*
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	
 	public boolean saveEvent(Evento evento) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			session.save(evento);
 			session.beginTransaction();
+			session.saveOrUpdate(evento);
+			session.getTransaction().commit();
 			session.close();
 		}
 		catch (Exception e) {
 			if (session!=null)
 				session.close();
+			System.out.println(e.getMessage());
 			return false;
 		}
 		return true;
 	}
-	*/
+	
 }
