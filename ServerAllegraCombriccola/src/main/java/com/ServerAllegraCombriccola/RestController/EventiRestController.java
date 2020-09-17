@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ServerAllegraCombriccola.Model.Coordinata;
 
+
+
 @RestController
 public class EventiRestController {
 	
