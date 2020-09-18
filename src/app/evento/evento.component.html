@@ -1,0 +1,66 @@
+<form action="http://localhost:8080/event/put" method="POST"> 
+    <div id="formEvento">
+        <h1>EVENTO</h1>
+        <div class="form-group">
+            <input type="text" class="form-control" id="nome" required="true">
+            <label >Nome Evento</label>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="url">
+            <label >Sito web dell' evento (facoltativo)</label>
+        </div>
+        <h2>UBICAZIONE</h2>
+        <div class="form-group">
+            <input type="text" class="form-control" id="via" required="true">
+            <label >Via</label>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="citta" required="true">
+            <label >Città</label>
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" id="cap" required="true">
+            <label >Cap</label>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="provincia" required="true">
+            <label >Provincia</label>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="regione" required="true">
+            <label >Regione</label>
+        </div>
+        <div class="form-group">
+        <input type="tel" class="form-control" id="tel" required="true"> 
+        <label>Recapito telefonico</label>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" id="mail" required="true">
+            <label>E-mail</label>
+        </div>
+        <div class="form-group">
+            <input type="date" class="form-control" id="date" required="true">
+            <label>Giorno inizio evento</label>
+        </div>
+        <div class="form-group">
+        <input type="time" class="form-control" id="exampleInputTime" min="6:00" max="24:00" required="true">
+        <label >Orario inizio evento</label>
+        </div>
+        <div class="form-group">
+            <input type="date" class="form-control" id="date" required="true">
+            <label>Giorno fine evento</label>
+        </div>
+        <div class="form-group">
+        <input type="time" class="form-control" id="exampleInputTime" min="6:00" max="24:00" required="true">
+        <label >Orario fine evento</label>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlFile1">Immagine evento</label>
+            <input type="file" class="form-control-file" id="exampleFormControlFile1">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Invia il tuo evento">
+        </div>
+        
+    </div>
+</form>
