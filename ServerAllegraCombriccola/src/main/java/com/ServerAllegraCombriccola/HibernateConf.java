@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.ServerAllegraCombriccola.Dao.EventDao;
 import com.ServerAllegraCombriccola.Model.Evento;
 import com.ServerAllegraCombriccola.Service.EventServiceImpl;
+import com.ServerAllegraCombriccola.Service.GeoService;
+import com.ServerAllegraCombriccola.Service.GeoServiceImpl;
 
 @Configuration
 @EnableTransactionManagement
@@ -38,6 +40,11 @@ public class HibernateConf {
         dataSource.setPassword("scachri86");
  
         return dataSource;
+    }
+	
+	@Bean
+    public GeoService geoService() {
+        return new GeoServiceImpl();
     }
 	
 	@Bean
