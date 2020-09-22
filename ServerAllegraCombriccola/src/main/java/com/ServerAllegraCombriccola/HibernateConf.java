@@ -19,7 +19,7 @@ import com.ServerAllegraCombriccola.Service.GeoServiceImpl;
 @Configuration
 @EnableTransactionManagement
 public class HibernateConf {
-	
+	/*
 	@Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
@@ -41,7 +41,7 @@ public class HibernateConf {
  
         return dataSource;
     }
-	
+	*/
 	@Bean
     public GeoService geoService() {
         return new GeoServiceImpl();

@@ -29,11 +29,11 @@ public class EventiRestController {
 	}
 	
 	@PostMapping("/event/put")
-	boolean putEvent (@RequestParam String nome,@RequestParam (required = false) String  url,@RequestParam Date inizio,@RequestParam Date fine,@RequestParam String via,@RequestParam String citta,@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,@RequestParam (required=false) String immagine) {
-		System.out.println("WORKKKK");
-		//eventService.saveEvent(nome, url, inizio, fine,via,civico,citta,cap,provincia,regione, descrizione, immagine);
-		geoService.getLongLatFromAddress(via, citta, cap, provincia, regione);
-		return true;
+	Coordinata putEvent (@RequestParam String nome,@RequestParam (required = false) String  url,@RequestParam Date inizio,@RequestParam Date fine,@RequestParam String via,@RequestParam String citta,@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,@RequestParam (required=false) String immagine) {
+		
+		Coordinata coordinata =  geoService.getLongLatFromAddress(via, citta, cap, provincia, regione);
+		eventService.saveEvent(nome, url, inizio, fine, via, citta, cap, provincia, regione, descrizione, immagine,coordinata.getLng(),coordinata.getLat());
+		return coordinata;  
 	}
 	
 }

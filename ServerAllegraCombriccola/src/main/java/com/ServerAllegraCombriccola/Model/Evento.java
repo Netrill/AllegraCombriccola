@@ -1,5 +1,6 @@
 package com.ServerAllegraCombriccola.Model;
 
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -18,13 +19,11 @@ public class Evento {
 	@Column
 	private String url;
 	@Column
-	private String inizioEvento,fineEvento;
+	private Date inizioEvento,fineEvento;
 	@Column
 	private String via;
 	@Column
 	private String indirizzo;
-	@Column
-	private String civico;
 	@Column
 	private String citta;
 	@Column
@@ -37,6 +36,10 @@ public class Evento {
 	private String descrizione;
 	@Column
 	private String immagine;
+	@Column
+	private double lng;
+	@Column
+	private double lat;
 
 	
 	public Evento () {}
@@ -45,9 +48,9 @@ public class Evento {
 
 
 
-	public Evento(String nome, String url, String inizioEvento, String fineEvento, String via, String indirizzo,
-			String civico, String citta, String cap, String provincia, String regione, String descrizione,
-			String immagine) {
+	public Evento(String nome, String url, Date inizioEvento, Date fineEvento, String via, String indirizzo,
+			String citta, String cap, String provincia, String regione, String descrizione,
+			String immagine, double lng,double lat) {
 		super();
 		this.nome = nome;
 		this.url = url;
@@ -55,17 +58,15 @@ public class Evento {
 		this.fineEvento = fineEvento;
 		this.via = via;
 		this.indirizzo = indirizzo;
-		this.civico = civico;
 		this.citta = citta;
 		this.cap = cap;
 		this.provincia = provincia;
 		this.regione = regione;
 		this.descrizione = descrizione;
 		this.immagine = immagine;
+		this.lng=lng;
+		this.lat=lat;
 	}
-
-
-
 
 
 	public String getNome() {
@@ -83,45 +84,13 @@ public class Evento {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
-	public String getInizio() {
-		return inizioEvento;
-	}
-
-	public void setInizio(String inizio) {
-		this.inizioEvento = inizio;
-	}
-
-	public String getFine() {
-		return fineEvento;
-	}
-
-	public void setFine(String fine) {
-		this.fineEvento = fine;
-	}
-
+	
 	public long getIdEvento() {
 		return idEvento;
 	}
 
 	public void setIdEvento(long idEvento) {
 		this.idEvento = idEvento;
-	}
-
-	public String getInizioEvento() {
-		return inizioEvento;
-	}
-
-	public void setInizioEvento(String inizioEvento) {
-		this.inizioEvento = inizioEvento;
-	}
-
-	public String getFineEvento() {
-		return fineEvento;
-	}
-
-	public void setFineEvento(String fineEvento) {
-		this.fineEvento = fineEvento;
 	}
 
 	public String getVia() {
@@ -138,14 +107,6 @@ public class Evento {
 
 	public void setIndirizzo(String indirizzo) {
 		this.indirizzo = indirizzo;
-	}
-
-	public String getCivico() {
-		return civico;
-	}
-
-	public void setCivico(String civico) {
-		this.civico = civico;
 	}
 
 	public String getCitta() {
@@ -194,6 +155,38 @@ public class Evento {
 
 	public void setImmagine(String immagine) {
 		this.immagine = immagine;
+	}
+
+	public double getLng() {
+		return lng;
+	}
+
+	public void setLng(double lng) {
+		this.lng = lng;
+	}
+
+	public double getLat() {
+		return lat;
+	}
+
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+	public Date getInizioEvento() {
+		return inizioEvento;
+	}
+
+	public void setInizioEvento(Date inizioEvento) {
+		this.inizioEvento = inizioEvento;
+	}
+
+	public Date getFineEvento() {
+		return fineEvento;
+	}
+	
+	public void setFineEvento(Date fineEvento) {
+		this.fineEvento = fineEvento;
 	}
 	
 	

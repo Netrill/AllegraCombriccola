@@ -1,25 +1,30 @@
 package com.ServerAllegraCombriccola.Model;
 
 public class Coordinata {
-	private double latitude;
-	private double longitude;
+	private double lng;
+	private double lat;
+	
+	
+	public Coordinata () {}
 	
 	public Coordinata(double i, double j) {
-		this.latitude=i;
-		this.longitude=j;
+		this.lng=i;
+		this.lat=j;
 	}
-	public double getLatitude() {
-		return latitude;
+
+	public double getLng() {
+		return lng;
 	}
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
+
+	public void setLng(double lng) {
+		this.lng = lng;
 	}
-	public double getLongitude() {
-		return longitude;
+
+	public double getLat() {
+		return lat;
 	}
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
+
+	public void setLat(double lat) {
+		this.lat = lat;
 	}
-	
-	
-}
+}	 
