@@ -46,7 +46,6 @@ public class GeoServiceImpl implements GeoService {
 		          .uri(builder.build())
 		          .build();
 		     
-		  
 		    HttpResponse<String> response =
 		          client.send(request, BodyHandlers.ofString());
 		    

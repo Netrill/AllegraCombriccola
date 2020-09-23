@@ -4,11 +4,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <input type="text" class="form-control" name="nome" required="true">
+                    <input  [(ngModel)] = 'nomeEvento' type="text" class="form-control" name="nome" required="true">
                     <label >Nome Evento</label>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" id="url">
+                    <input [(ngModel)] = 'url' type="text" class="form-control" name="url">
                     <label >Sito web dell' evento (facoltativo)</label>
                 </div>
             </div>
@@ -17,23 +17,23 @@
         <div class="container">
             <div class = "row">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" name="via" required="true">
+                    <input [(ngModel)] = 'via' type="text" class="form-control" name="via" required="true">
                     <label >Via</label>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" class="form-control" name="citta" required="true">
+                    <input [(ngModel)] = 'citta' type="text" class="form-control" name="citta" required="true">
                     <label >Città</label>
                 </div>
                 <div class="col-md-2">
-                    <input type="number" class="form-control" name="cap" required="true">
+                    <input [(ngModel)] = 'cap' type="number" class="form-control" name="cap" required="true">
                     <label >Cap</label>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" class="form-control" name="provincia" required="true">
+                    <input [(ngModel)] = 'provincia' type="text" class="form-control" name="provincia" required="true">
                      <label >Provincia</label>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" class="form-control" name="regione" required="true">
+                    <input [(ngModel)] = 'regione' type="text" class="form-control" name="regione" required="true">
                     <label >Regione</label>
                 </div>
             </div>
@@ -42,11 +42,11 @@
         <div class = "container">
             <div class="row">
                 <div class="col-md-6">
-                    <input type="tel" class="form-control" name="tel" required="true"> 
+                    <input [(ngModel)] = 'tel' type="tel" class="form-control" name="tel" required="true"> 
                     <label>Recapito telefonico</label>
                 </div>
                 <div class="col-md-6">
-                    <input type="email" class="form-control" name="mail" required="true">
+                    <input [(ngModel)] = 'email' type="email" class="form-control" name="mail" required="true">
                     <label>E-mail</label>
                 </div>
             </div>
@@ -55,19 +55,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <input type="date" class="form-control" name="inizio" required="true">
+                    <input [(ngModel)] = 'dataInizio' type="date" class="form-control" name="dataInizio" required="true">
                     <label>Giorno inizio evento</label>
                 </div>
                 <div class="col-md-3">
-                <input type="time" class="form-control" name="orarioInizio" min="6:00" max="24:00" required="true">
+                <input [(ngModel)] = 'orarioInizio' type="time" class="form-control" name="orarioInizio" min="6:00" max="24:00" required="true">
                 <label >Orario inizio evento</label>
                 </div>
                 <div class="col-md-3">
-                    <input type="date" class="form-control" name="fine" required="true">
+                    <input  [(ngModel)] = 'dataFine' type="date" class="form-control" name="dataFine" required="true">
                     <label>Giorno fine evento</label>
                 </div>
                 <div class="col-md-3">
-                <input type="time" class="form-control" name="orarioFine" min="6:00" max="24:00" required="true">
+                <input [(ngModel)] = 'orarioFine' type="time" class="form-control" name="orarioFine" min="6:00" max="24:00" required="true">
                 <label >Orario fine evento</label>
                 </div>
             </div>
@@ -84,7 +84,7 @@
             <input type="file" class="form-control-file"  accept="image/*" name="immagine">
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Invia il tuo evento">
+            <input (click)="addEvent()" class="btn btn-primary btn-lg btn-block" value="Invia il tuo evento">
         </div>
     </div>
 </form>

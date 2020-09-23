@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { EventService } from './../service/event.service';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-evento',
@@ -7,9 +8,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventoComponent implements OnInit {
 
-  constructor() { }
+  nomeEvento : String = "";
+  url : String = "";
+  via : String = "";
+  citta : String = "";
+  cap : Number ;
+  provincia : String = "";
+  regione : String = "";
+  tel : Number;
+  email : String = "";
+  dataInizio = new Date () ;
+  orarioInizio = new Date () ;
+  dataFine = new Date () ;
+  orarioFine = new Date () ;
+
+
+  constructor(eventService : EventService) { }
 
   ngOnInit(): void {
   }
+  mergeTimestam( data : Date , orario : Date) {
+    data.setHours(orario.getHours());;
+    data.setMinutes(orario.getMinutes());
+    data.setSeconds(orario.getSeconds());
+    return data;
+  }
 
+  addEvent() {
+    alert(this.mergeTimestam(this.dataInizio,this.orarioInizio));
+  }
 }
