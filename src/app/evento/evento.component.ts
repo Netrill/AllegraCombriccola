@@ -17,24 +17,31 @@ export class EventoComponent implements OnInit {
   regione : String = "";
   tel : Number;
   email : String = "";
-  dataInizio = new Date () ;
-  orarioInizio = new Date () ;
-  dataFine = new Date () ;
-  orarioFine = new Date () ;
+  dataInizio : string = "";
+  orarioInizio : string = "";
+  dataFine : string = "";
+  orarioFine : string = "";
+  inizio : Date;
+  fine : Date;
+  descrizione : String = "";
 
+  eventService : EventService;
 
-  constructor(eventService : EventService) { }
+  constructor(eventService : EventService) { 
+    this.eventService = eventService;
+
+  }
 
   ngOnInit(): void {
   }
-  mergeTimestam( data : Date , orario : Date) {
-    data.setHours(orario.getHours());;
-    data.setMinutes(orario.getMinutes());
-    data.setSeconds(orario.getSeconds());
-    return data;
+  mergeTimestamp( data : string , ora : string) {
+    let giorno = new Date(data);
+    return new Date (giorno.toDateString() + ' ' + ora);
   }
 
   addEvent() {
-    alert(this.mergeTimestam(this.dataInizio,this.orarioInizio));
+    this.inizio = this.mergeTimestamp(this.dataInizio,this.orarioInizio);
+    this.fine = this.mergeTimestamp(this.dataFine,this.orarioFine);
+    this.eventService.createNewEvent(this.nomeEvento,this.url,this.via,this.citta,this.cap,this.provincia,this.regione,this.tel,this.email,this.inizio,this.fine,this.descrizione);
   }
 }

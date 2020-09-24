@@ -8,7 +8,7 @@ import { MenuComponent } from './menu/menu.component';
 import { MapComponent } from './map/map.component';
 import { EventoComponent } from './evento/evento.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [EventService],
+  providers: [EventService, HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

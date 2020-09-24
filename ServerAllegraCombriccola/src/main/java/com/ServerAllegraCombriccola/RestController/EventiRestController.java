@@ -3,6 +3,7 @@ package com.ServerAllegraCombriccola.RestController;
 import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +30,7 @@ public class EventiRestController {
 	}
 	
 	@PostMapping("/event/put")
+	@CrossOrigin(origins = "http://localhost:4200")
 	Coordinata putEvent (@RequestParam String nome,@RequestParam (required = false) String  url,@RequestParam Date inizio,@RequestParam Date fine,@RequestParam String via,@RequestParam String citta,@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,@RequestParam (required=false) String immagine) {
 		
 		Coordinata coordinata =  geoService.getLongLatFromAddress(via, citta, cap, provincia, regione);
