@@ -18,6 +18,7 @@ public class EventDao {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
 			session.saveOrUpdate(evento);
+			System.out.println(evento.getInizioEvento());
 			session.getTransaction().commit();
 			session.close();
 			return evento.getIdEvento();

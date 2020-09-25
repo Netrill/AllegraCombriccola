@@ -38,15 +38,11 @@ public class EventiRestController {
 		GeolocalizzazioneEvento geolocalizzazioneEvento =  geoService.getLongLatFromAddress(via, citta, cap, provincia, regione);
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+
 		
-		System.out.println("inizio " + inizio);
-		System.out.println("fine " + fine);
-		
-		Date dateInizio = (Date) dateFormat.parse(inizio);
-		Date dateFine = (Date) dateFormat.parse(fine);
-		
-		System.out.println("dateInizio " + dateInizio);
-		System.out.println("dateFine " + dateFine);
+		Date dateInizio = dateFormat.parse(inizio);
+		Date dateFine = dateFormat.parse(fine);
+
 		
 		long id= eventService.saveEvent(nome, url, dateInizio, dateFine, via, citta, cap, provincia, regione, descrizione, immagine,geolocalizzazioneEvento.getLng(),geolocalizzazioneEvento.getLat());
 		geolocalizzazioneEvento.setId(id);  
