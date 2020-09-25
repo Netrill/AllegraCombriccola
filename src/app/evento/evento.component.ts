@@ -1,5 +1,6 @@
 import { EventService } from './../service/event.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-evento',
@@ -21,13 +22,13 @@ export class EventoComponent implements OnInit {
   orarioInizio : string = "";
   dataFine : string = "";
   orarioFine : string = "";
-  inizio : Date;
-  fine : Date;
+  inizio : string;
+  fine : string;
   descrizione : String = "";
 
   eventService : EventService;
 
-  constructor(eventService : EventService) { 
+  constructor(eventService : EventService,public datepipe: DatePipe) { 
     this.eventService = eventService;
 
   }
@@ -36,7 +37,7 @@ export class EventoComponent implements OnInit {
   }
   mergeTimestamp( data : string , ora : string) {
     let giorno = new Date(data);
-    return new Date (giorno.toDateString() + ' ' + ora);
+    return this.datepipe.transform(new Date (giorno.toDateString() + ' ' + ora), 'HH:mm:ss dd/MM/yyyy') 
   }
 
   addEvent() {

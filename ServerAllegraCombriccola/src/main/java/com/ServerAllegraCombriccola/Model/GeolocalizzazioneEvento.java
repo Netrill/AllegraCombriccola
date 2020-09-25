@@ -1,13 +1,14 @@
 package com.ServerAllegraCombriccola.Model;
 
-public class Coordinata {
+public class GeolocalizzazioneEvento {
+	private long id;
 	private double lng;
 	private double lat;
 	
 	
-	public Coordinata () {}
+	public GeolocalizzazioneEvento () {}
 	
-	public Coordinata(double i, double j) {
+	public GeolocalizzazioneEvento(double i, double j) {
 		this.lng=i;
 		this.lat=j;
 	}
@@ -27,4 +28,13 @@ public class Coordinata {
 	public void setLat(double lat) {
 		this.lat = lat;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 }	 

@@ -1,5 +1,5 @@
 
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -12,6 +12,8 @@ export class EventService {
 
   messageSubject = new Subject();
   client : HttpClient;
+  response : any;
+  error : any;
   constructor(httpClient : HttpClient) { 
     this.client = httpClient;
   }
@@ -23,21 +25,15 @@ export class EventService {
 
 
   createNewEvent(nome , url, via, citta, cap, provincia, regione, tel, email, inizio, fine, descrizione) {
-    const body = 
-    { 
-      'nome': nome,
-      'url': url,
-      'via': via,
-      'citta': citta,
-      'cap': cap,
-      'provincia': provincia,
-      'regione': regione,
-      'tel': tel,
-      'email': email,
-      'inizio': inizio,
-      'fine': fine,
-      'descrizione': descrizione
-    };
-    return this.client.post <any>('http://localhost:8080/event/put', body,{}).subscribe(data => {});
+    
+    // Parameters obj-
+   
+    alert(nome);
+    let body = new HttpParams();
+    body = body.set('nome', nome).set('url',url).set('via',via).set('citta',citta).set('cap',cap).set('provincia',provincia).set('regione',regione)
+          .set('tel',tel).set('email',email).set('inizio',inizio).set('fine',fine).set('descrizione',descrizione);
+
+    alert(this.client.post('http://localhost:8080/event/put', body, {headers: {}}).subscribe());
+
   }
 }

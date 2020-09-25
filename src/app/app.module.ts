@@ -10,6 +10,7 @@ import { EventoComponent } from './evento/evento.component';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [EventService, HttpClient],
+  providers: [EventService, HttpClient,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

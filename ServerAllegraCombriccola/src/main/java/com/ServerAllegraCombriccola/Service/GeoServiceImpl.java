@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.ServerAllegraCombriccola.Model.Coordinata;
+import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.http.client.methods.HttpGet;
@@ -33,7 +33,7 @@ public class GeoServiceImpl implements GeoService {
     //http://www.mapquestapi.com/geocoding/v1/address?key=KEY&location=Washington,DC
 
 	@Override
-	public Coordinata getLongLatFromAddress(String via, String citta, String cap, String provincia, String regione) {
+	public GeolocalizzazioneEvento getLongLatFromAddress(String via, String citta, String cap, String provincia, String regione) {
 	 
 		try {
  
@@ -58,7 +58,7 @@ public class GeoServiceImpl implements GeoService {
 		    object = (JSONObject) locations.get(0);
 		    
 		    ObjectMapper mapper = new ObjectMapper();
-		    return mapper.readValue(object.get("displayLatLng").toString(), Coordinata.class);
+		    return mapper.readValue(object.get("displayLatLng").toString(), GeolocalizzazioneEvento.class);
 		}
 		catch (Exception e) {
 			// TODO Auto-generated catch block

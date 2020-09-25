@@ -1,9 +1,9 @@
 package com.ServerAllegraCombriccola.Service;
 
-import com.ServerAllegraCombriccola.Model.Coordinata;
+import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
 
 public interface GeoService {
 	
-	Coordinata getLongLatFromAddress(String via,String citta,String cap,String provincia,String regione);
+	GeolocalizzazioneEvento getLongLatFromAddress(String via,String citta,String cap,String provincia,String regione);
 
 }
