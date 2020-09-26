@@ -23,8 +23,6 @@ public class Evento {
 	@Column
 	private String via;
 	@Column
-	private String indirizzo;
-	@Column
 	private String citta;
 	@Column
 	private String cap;
@@ -48,7 +46,7 @@ public class Evento {
 
 
 
-	public Evento(String nome, String url, Date inizioEvento, Date fineEvento, String via, String indirizzo,
+	public Evento(String nome, String url, Date inizioEvento, Date fineEvento, String via, 
 			String citta, String cap, String provincia, String regione, String descrizione,
 			String immagine, double lng,double lat) {
 		super();
@@ -57,7 +55,6 @@ public class Evento {
 		this.inizioEvento = inizioEvento;
 		this.fineEvento = fineEvento;
 		this.via = via;
-		this.indirizzo = indirizzo;
 		this.citta = citta;
 		this.cap = cap;
 		this.provincia = provincia;
@@ -99,14 +96,6 @@ public class Evento {
 
 	public void setVia(String via) {
 		this.via = via;
-	}
-
-	public String getIndirizzo() {
-		return indirizzo;
-	}
-
-	public void setIndirizzo(String indirizzo) {
-		this.indirizzo = indirizzo;
 	}
 
 	public String getCitta() {

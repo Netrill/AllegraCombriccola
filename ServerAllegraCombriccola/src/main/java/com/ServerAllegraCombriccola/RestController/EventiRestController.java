@@ -34,19 +34,25 @@ public class EventiRestController {
 	@PostMapping("/event/put")
 	@CrossOrigin(origins = "http://localhost:4200")
 	GeolocalizzazioneEvento putEvent (@RequestParam String nome,@RequestParam (required = false) String  url,@RequestParam String inizio,@RequestParam String fine,@RequestParam String via,@RequestParam String citta,@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,@RequestParam (required=false) String immagine) throws ParseException {
-		
-		GeolocalizzazioneEvento geolocalizzazioneEvento =  geoService.getLongLatFromAddress(via, citta, cap, provincia, regione);
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
-
-		
-		Date dateInizio = dateFormat.parse(inizio);
-		Date dateFine = dateFormat.parse(fine);
-
-		
-		long id= eventService.saveEvent(nome, url, dateInizio, dateFine, via, citta, cap, provincia, regione, descrizione, immagine,geolocalizzazioneEvento.getLng(),geolocalizzazioneEvento.getLat());
-		geolocalizzazioneEvento.setId(id);  
-		return geolocalizzazioneEvento;
+		try {
+			GeolocalizzazioneEvento geolocalizzazioneEvento =  geoService.getLongLatFromAddress(via, citta, cap, provincia, regione);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+			geolocalizzazioneEvento.setInizio(dateFormat.parse(inizio));
+			geolocalizzazioneEvento.setFine(dateFormat.parse(fine));
+			geolocalizzazioneEvento.setVia(via);
+			geolocalizzazioneEvento.setCap(cap);
+			geolocalizzazioneEvento.setCitta(citta);
+			geolocalizzazioneEvento.setProvincia(provincia);
+			geolocalizzazioneEvento.setRegione(regione);
+			geolocalizzazioneEvento.setUrl(url);
+			geolocalizzazioneEvento.setNome(nome);
+			geolocalizzazioneEvento.setDescrizione(descrizione);
+			long id= eventService.saveEvent(geolocalizzazioneEvento,immagine);
+			geolocalizzazioneEvento.setId(id);  
+			return geolocalizzazioneEvento;
+		}catch(Exception e) {
+			return null;
+		}
 	}
 	
 }
