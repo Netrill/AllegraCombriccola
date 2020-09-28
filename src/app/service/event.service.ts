@@ -42,7 +42,7 @@ export class EventService {
     this.response.id = data.id;
     this.response.lat = data.lat;
     this.response.lng = data.lng;
-    this.mapService.addComponentToMap(this.response)
+    this.mapService.addEventToMap(this.response);
   }
 
   getEvento () {

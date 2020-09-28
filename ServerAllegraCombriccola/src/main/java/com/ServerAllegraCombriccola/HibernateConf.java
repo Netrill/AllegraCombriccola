@@ -35,7 +35,7 @@ public class HibernateConf {
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/allegracombriccoladb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=true&serverTimezone=Europe/Rome&useSSL=false");
+        dataSource.setUrl("jdbc:mysql://localhost/allegracombriccoladb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=true&serverTimezone=Europe/Rome&useSSL=false");
         dataSource.setUsername("root");
         dataSource.setPassword("scachri86");
  

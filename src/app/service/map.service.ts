@@ -16,8 +16,7 @@ export class MapService {
   getMap () {
     return this.mapComponent;
   }
-  addComponentToMap (evento : GeoEvento) {
-    alert('chaiamto')
+  addEventToMap (evento: GeoEvento) {
     this.mapComponent.addNewEventToMap (evento);
   }
 }

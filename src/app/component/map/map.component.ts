@@ -25,59 +25,37 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     
-    
-
-    //A distinct className is required to use another canvas for the background
-    var background = new ol.layer.Tile({
-      className: 'stamen',
-      source: new ol.source.Stamen({
-        layer: 'toner',
-      }),
-    });
 
     var base = new ol.layer.Tile({
       source: new ol.source.OSM(),
     });
-
-
+    /*
     var clipLayer = new ol.layer.Vector({
       style: null,
       source: new ol.source.Vector({
-        url: './data/geojson/italy.geojson',
+        url: 'assets/italy.geojson',
         format: new ol.format.GeoJSON(),
       }),
     });
 
-    var circle = new ol.geom.Circle (100,100,100) ;
-
-   
-    //Giving the clipped layer an extent is necessary to avoid rendering when the feature is outside the viewport
+     //Giving the clipped layer an extent is necessary to avoid rendering when the feature is outside the viewport
     clipLayer.getSource().on('addfeature', function () {
       base.setExtent(clipLayer.getSource().getExtent());
     });
-    
+    */
+    var circle = new ol.geom.Circle (100,100,100) ;
+
     var style = new ol.style.Style({
       fill: new ol.style.Fill({
         color: 'black',
       }),
     });
-    
-    base.on('postrender', function (e) {
-      var vectorContext = ol.render.getVectorContext(e);
-      e.context.globalCompositeOperation = 'destination-in';
-      clipLayer.getSource().forEachFeature(function (feature) {
-        vectorContext.drawFeature(feature, style);
-      });
-      e.context.globalCompositeOperation = 'source-over';
-    });
-
     this.map = new ol.Map({
-      layers: [background,base,clipLayer],
+      layers: [base],
       target: 'map',
       view: new ol.View({
         center: ol.proj.fromLonLat([this.longitudineRoma,this.latidudineRoma]),
         zoom: 6,
-        minZoom:6,
         maxZoom:18
       })
     });
@@ -127,54 +105,35 @@ export class MapComponent implements OnInit {
   }
 
   public addNewEventToMap (evento : GeoEvento) {
-   /* var iconFeature = new ol.Feature({
-      geometry: new ol.geom.Point(ol.proj.fromLonLat([this.longitudineRoma,this.latidudineRoma ])),
-      name: 'Fish.1',
+    const punto = ol.proj.fromLonLat([evento.lng,evento.lat]);
+    const marker = new ol.geom.Point([evento.lng, evento.lat]);
+    const featureMarker = new ol.Feature({
+        geometry: new ol.geom.Point(punto),
     });
-    var iconStyle = new ol.style.Style({
-      image: new ol.style.Icon({
-        src: '../images/simpleMarker.png',
+
+
+    const marKerImage = 'assets/simpleMarker.png';
+    const styleMarker = new ol.style.Style({
+      image : new ol.style.Icon(
+      ({
+        anchor : [ 0.5, 10 ],
+        anzchorXUnits : 'fraction',
+        anchorYUnits : 'pixels',
+        opacity : 0.75,
+        src : marKerImage
+      }))
+    });
+
+    const vector = new ol.layer.Vector({
+      source: new ol.source.Vector({
+        features: [featureMarker],
       }),
-    });
-    */
-
-    var rome = new ol.Feature({
-      geometry: new ol.geom.Point(ol.proj.fromLonLat([evento.lng, evento.lat]))
-    });
-    rome.setStyle(
-      new ol.style.Style({
-        image: new ol.style.Icon({
-          color: '#BADA55',
-          crossOrigin: 'anonymous',
-          // For Internet Explorer 11
-          imgSize: [20, 20],
-          src: '/images/simpleMarker.png',
-        }),
-      })
-    );
-   
-    
-    var vectorSource = new ol.source.Vector({
-      features: [rome],
-    });
-    
-    var vectorLayer = new ol.layer.Vector({
-      source: vectorSource,
-    });
-    this.map.addLayer(vectorLayer);
-    alert('fin qui 3');
-    
-    /*
-    
-    let layer = new ol.layer.Vector({
-      style: new ol.style.Style({
-        image : new ol.style.Icon( {
-         
-        })
-      })
-
-    });*/
-
+      style: [styleMarker],
+      name: 'marker',
+      posizione: punto,
+  });
+  this.map.addLayer(vector);
+  alert('fine');
   }
 }
 
