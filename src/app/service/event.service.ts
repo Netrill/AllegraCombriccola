@@ -1,5 +1,7 @@
+import { MapService } from 'src/app/service/map.service';
 
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { mapToMapExpression } from '@angular/compiler/src/render3/util';
 import { Injectable } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -13,10 +15,12 @@ export class EventService {
 
   messageSubject = new Subject();
   client : HttpClient;
-  response : GeoEvento;
+  response = new GeoEvento();
+  mapService : MapService;
   error : any;
-  constructor(httpClient : HttpClient) { 
+  constructor(httpClient : HttpClient,mapService : MapService) { 
     this.client = httpClient;
+    this.mapService = mapService;
   }
   createMap() {
     this.messageSubject.next();
@@ -26,17 +30,22 @@ export class EventService {
 
 
   createNewEvent(nome , url, via, citta, cap, provincia, regione, tel, email, inizio, fine, descrizione) {
-    
     let body = new HttpParams();
     body = body.set('nome', nome).set('url',url).set('via',via).set('citta',citta).set('cap',cap).set('provincia',provincia).set('regione',regione)
           .set('tel',tel).set('email',email).set('inizio',inizio).set('fine',fine).set('descrizione',descrizione);
-
     this.client.post<GeoEvento>('http://localhost:8080/event/put', body, {headers: {}}).subscribe({
-      next: data => alert(data.id),
+      next: data => this.addEventToMap (data),
       error: error => console.error('There was an error!', error)}
-
-
     )
-  
+  }
+  addEventToMap (data: GeoEvento) {
+    this.response.id = data.id;
+    this.response.lat = data.lat;
+    this.response.lng = data.lng;
+    this.mapService.addComponentToMap(this.response)
+  }
+
+  getEvento () {
+    return this.response;
   }
 }
