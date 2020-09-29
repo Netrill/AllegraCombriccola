@@ -1,5 +1,5 @@
 export class GeoEvento {
-    id : number;
+    id: number;
     lat: number;
     lng: number;
   }
