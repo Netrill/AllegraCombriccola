@@ -10,7 +10,7 @@ public class EventBuilder {
 	
 	public static Evento createEvent (GeolocalizzazioneEvento g,String immagine) {
 		return new Evento  (g.getNome(),g.getUrl(),g.getInizio(),g.getFine(),g.getVia(),
-				g.getCitta(),g.getCap(),g.getProvincia(),g.getRegione(),g.getDescrizione(),
+				g.getCitta(),g.getDescrizione(),
 				immagine, g.getLng(),g.getLat());
 
 	}

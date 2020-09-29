@@ -33,17 +33,14 @@ public class EventiRestController {
 	
 	@PostMapping("/event/put")
 	@CrossOrigin(origins = "http://localhost:4200")
-	GeolocalizzazioneEvento putEvent (@RequestParam String nome,@RequestParam (required = false) String  url,@RequestParam String inizio,@RequestParam String fine,@RequestParam String via,@RequestParam String citta,@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,@RequestParam (required=false) String immagine) {
+	GeolocalizzazioneEvento putEvent (@RequestParam String nome,@RequestParam (required = false) String  url,@RequestParam String inizio,@RequestParam String fine,@RequestParam String via,@RequestParam String citta,@RequestParam String descrizione,@RequestParam (required=false) String immagine) {
 		try {
-			GeolocalizzazioneEvento geolocalizzazioneEvento =  geoService.getLongLatFromAddress(via, citta, cap, provincia, regione);
+			GeolocalizzazioneEvento geolocalizzazioneEvento =  geoService.getLongLatFromAddress(via, citta);
 			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
 			geolocalizzazioneEvento.setInizio(dateFormat.parse(inizio));
 			geolocalizzazioneEvento.setFine(dateFormat.parse(fine));
 			geolocalizzazioneEvento.setVia(via);
-			geolocalizzazioneEvento.setCap(cap);
 			geolocalizzazioneEvento.setCitta(citta);
-			geolocalizzazioneEvento.setProvincia(provincia);
-			geolocalizzazioneEvento.setRegione(regione);
 			geolocalizzazioneEvento.setUrl(url);
 			geolocalizzazioneEvento.setNome(nome);
 			geolocalizzazioneEvento.setDescrizione(descrizione);

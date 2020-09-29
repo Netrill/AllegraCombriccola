@@ -47,7 +47,7 @@ public class Evento {
 
 
 	public Evento(String nome, String url, Date inizioEvento, Date fineEvento, String via, 
-			String citta, String cap, String provincia, String regione, String descrizione,
+			String citta, String descrizione,
 			String immagine, double lng,double lat) {
 		super();
 		this.nome = nome;
@@ -56,9 +56,6 @@ public class Evento {
 		this.fineEvento = fineEvento;
 		this.via = via;
 		this.citta = citta;
-		this.cap = cap;
-		this.provincia = provincia;
-		this.regione = regione;
 		this.descrizione = descrizione;
 		this.immagine = immagine;
 		this.lng=lng;
