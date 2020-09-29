@@ -23,6 +23,11 @@ public class GeolocalizzazioneEvento {
 		this.lng=i;
 		this.lat=j;
 	}
+	public GeolocalizzazioneEvento(long id ,double i, double j) {
+		this.lng=i;
+		this.lat=j;
+		this.id=id;
+	}
 
 	public double getLng() {
 		return lng;

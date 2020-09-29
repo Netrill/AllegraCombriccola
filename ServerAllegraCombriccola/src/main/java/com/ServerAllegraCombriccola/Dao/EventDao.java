@@ -1,10 +1,18 @@
 package com.ServerAllegraCombriccola.Dao;
 
+import java.util.List;
+
+import javax.persistence.TypedQuery;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ServerAllegraCombriccola.Model.Evento;
+import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
+import com.ServerAllegraCombriccola.util.Utils;
+
+
 
 public class EventDao {
 	
@@ -18,7 +26,6 @@ public class EventDao {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
 			session.saveOrUpdate(evento);
-			System.out.println(evento.getInizioEvento());
 			session.getTransaction().commit();
 			session.close();
 			return evento.getIdEvento();
@@ -26,8 +33,27 @@ public class EventDao {
 		catch (Exception e) {
 			if (session!=null)
 				session.close();
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return -1;
+		}
+	}
+
+
+	public GeolocalizzazioneEvento[] getAllEvents() {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			TypedQuery<GeolocalizzazioneEvento> q =session.createQuery("select NEW com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento (idEvento,lng,lat) from Evento", GeolocalizzazioneEvento.class); 
+			List<GeolocalizzazioneEvento> list=q.getResultList();
+			session.close();
+			return Utils.fromListToArray(list);
+		}
+		catch (Exception e) {
+			if (session!=null)
+				session.close();
+			e.printStackTrace();
+			return new GeolocalizzazioneEvento[0];
 		}
 	}
 	

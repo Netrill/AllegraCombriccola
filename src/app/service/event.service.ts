@@ -34,18 +34,28 @@ export class EventService {
     body = body.set('nome', nome).set('url',url).set('via',via).set('citta',citta).set('cap',cap).set('provincia',provincia).set('regione',regione)
           .set('tel',tel).set('email',email).set('inizio',inizio).set('fine',fine).set('descrizione',descrizione);
     this.client.post<GeoEvento>('http://localhost:8080/event/put', body, {headers: {}}).subscribe({
-      next: data => this.addEventToMap (data),
+      next: data => this.addEventToMap (data, true),
       error: error => console.error('There was an error!', error)}
     )
   }
-  addEventToMap (data: GeoEvento) {
+  addEventToMap (data: GeoEvento, setPosition: boolean) {
     this.response.id = data.id;
     this.response.lat = data.lat;
     this.response.lng = data.lng;
     this.mapService.addEventToMap(this.response);
+    if (setPosition === true) {
+      this.mapService.setCenterOfMap(this.response);
+    }
   }
 
   getEvento () {
     return this.response;
   }
+  setSavedEvents () {
+    this.client.get<GeoEvento []>('http://localhost:8080/event/getAll').subscribe({
+      next: data => data.forEach(dato => this.addEventToMap(dato,false)),
+      error: error => console.error('There was an error!', error)}
+    )
+  }
+
 }

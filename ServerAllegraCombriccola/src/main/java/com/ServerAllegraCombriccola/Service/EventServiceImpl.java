@@ -31,4 +31,8 @@ public class EventServiceImpl implements EventService{
 		return false;
 	}
 
+	public GeolocalizzazioneEvento[] getAllEvents() {
+		return eventDao.getAllEvents();
+	}
+
 }

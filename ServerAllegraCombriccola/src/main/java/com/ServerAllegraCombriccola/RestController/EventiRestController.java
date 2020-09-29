@@ -33,7 +33,7 @@ public class EventiRestController {
 	
 	@PostMapping("/event/put")
 	@CrossOrigin(origins = "http://localhost:4200")
-	GeolocalizzazioneEvento putEvent (@RequestParam String nome,@RequestParam (required = false) String  url,@RequestParam String inizio,@RequestParam String fine,@RequestParam String via,@RequestParam String citta,@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,@RequestParam (required=false) String immagine) throws ParseException {
+	GeolocalizzazioneEvento putEvent (@RequestParam String nome,@RequestParam (required = false) String  url,@RequestParam String inizio,@RequestParam String fine,@RequestParam String via,@RequestParam String citta,@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,@RequestParam (required=false) String immagine) {
 		try {
 			GeolocalizzazioneEvento geolocalizzazioneEvento =  geoService.getLongLatFromAddress(via, citta, cap, provincia, regione);
 			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
@@ -50,6 +50,17 @@ public class EventiRestController {
 			long id= eventService.saveEvent(geolocalizzazioneEvento,immagine);
 			geolocalizzazioneEvento.setId(id);  
 			return geolocalizzazioneEvento;
+		}catch(Exception e) {
+			return null;
+		}
+	}
+	
+	@GetMapping("/event/getAll")
+	@CrossOrigin(origins = "http://localhost:4200")
+	GeolocalizzazioneEvento [] getAllEvents ()  {
+		try {
+			return eventService.getAllEvents();
+			 
 		}catch(Exception e) {
 			return null;
 		}

@@ -19,4 +19,7 @@ export class MapService {
   addEventToMap (evento: GeoEvento) {
     this.mapComponent.addNewEventToMap (evento);
   }
+  setCenterOfMap (evento: GeoEvento) {
+    this.mapComponent.setCenterOfMap (evento);
+  }
 }
