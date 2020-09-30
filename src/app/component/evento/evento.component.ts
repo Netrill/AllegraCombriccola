@@ -47,6 +47,5 @@ export class EventoComponent implements OnInit {
     this.inizio = this.mergeTimestamp(this.dataInizio,this.orarioInizio);
     this.fine = this.mergeTimestamp(this.dataFine,this.orarioFine);
     this.eventService.createNewEvent(this.nomeEvento,this.url,this.via,this.citta,this.cap,this.provincia,this.regione,this.tel,this.email,this.inizio,this.fine,this.descrizione);
-    //this.eventService.AddEventToMap(this.eventService.get);
   }
 }

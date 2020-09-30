@@ -31,20 +31,6 @@ export class MapComponent implements OnInit {
     const base = new ol.layer.Tile({
       source: new ol.source.OSM(),
     });
-    /*
-    var clipLayer = new ol.layer.Vector({
-      style: null,
-      source: new ol.source.Vector({
-        url: 'assets/italy.geojson',
-        format: new ol.format.GeoJSON(),
-      }),
-    });
-
-     //Giving the clipped layer an extent is necessary to avoid rendering when the feature is outside the viewport
-    clipLayer.getSource().on('addfeature', function () {
-      base.setExtent(clipLayer.getSource().getExtent());
-    });
-    */
     const style = new ol.style.Style({
       fill: new ol.style.Fill({
         color: 'black',
@@ -52,7 +38,7 @@ export class MapComponent implements OnInit {
     });
     this.map = new ol.Map({
       layers: [base],
-      target: 'map',
+      target: 'map1',
       view: new ol.View({
         center: ol.proj.fromLonLat([longitudineRoma, latidudineRoma]),
         zoom: 6,
@@ -76,7 +62,8 @@ export class MapComponent implements OnInit {
           view.setCenter(ol.proj.fromLonLat([longitudineRoma, latidudineRoma]));
         }
     });
-
+    const zoomslider = new ol.control.ZoomSlider();
+    this.map.addControl(zoomslider);
     this.mapService.setMapComponent (this);
     this.eventService.setSavedEvents();
   }
