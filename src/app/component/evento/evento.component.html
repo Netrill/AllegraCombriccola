@@ -1,4 +1,5 @@
-<form id="formEvento" action="http://localhost:8080/event/put" method="POST"> 
+<button *ngIf="!showForm" id="creaEventoButton" (click)="showEventForm(true)">Crea il tuo evento</button>
+<form *ngIf="showForm" id="formEvento" action="http://localhost:8080/event/put" method="POST"> 
     <div>
         <h1>Evento</h1>
         <div class="container">
@@ -72,7 +73,7 @@
             <input type="file" class="form-control-file"  accept="image/*" name="immagine">
         </div>
         <div class="form-group">
-            <input (click)="addEvent()" class="btn btn-primary btn-lg btn-block" value="Invia il tuo evento">
+            <input (click)="addEvent(); showEventForm(false)" class="btn btn-primary btn-lg btn-block" value="Invia il tuo evento">
         </div>
     </div>
 </form>

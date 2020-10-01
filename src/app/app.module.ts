@@ -12,13 +12,15 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MapService } from './service/map.service';
+import { VetrinaComponent } from './component/vetrina/vetrina.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     MapComponent,
-    EventoComponent
+    EventoComponent,
+    VetrinaComponent
   ],
   imports: [
     BrowserModule,

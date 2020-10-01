@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ServerAllegraCombriccola.Model.Evento;
 import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
-import com.ServerAllegraCombriccola.util.Utils;
 
 
 
@@ -47,7 +46,7 @@ public class EventDao {
 			TypedQuery<GeolocalizzazioneEvento> q =session.createQuery("select NEW com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento (idEvento,lng,lat) from Evento", GeolocalizzazioneEvento.class); 
 			List<GeolocalizzazioneEvento> list=q.getResultList();
 			session.close();
-			return Utils.fromListToArray(list);
+			return new GeolocalizzazioneEvento[0];
 		}
 		catch (Exception e) {
 			if (session!=null)

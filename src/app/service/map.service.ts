@@ -16,10 +16,16 @@ export class MapService {
   getMap () {
     return this.mapComponent;
   }
-  addEventToMap (evento: GeoEvento) {
+  addEventToMap (evento : GeoEvento) {
     this.mapComponent.addNewEventToMap (evento);
   }
   setCenterOfMap (evento: GeoEvento) {
     this.mapComponent.setCenterOfMap (evento);
   }
+  zoomIn() {
+    this.mapComponent.zoomIn ();
+  }
+  zoomOut () {
+    this.mapComponent.zoomOut ();
+    }
 }

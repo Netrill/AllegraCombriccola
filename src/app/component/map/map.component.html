@@ -1,11 +1,8 @@
-
-<div class="main">
-    <div id='circle'></div>
-    <div class="d1"></div>
-    <div class="d2"></div>
-    <div class="d3"></div>
-    <div class="d4"></div>
-</div>
 <div id="mapContainer">
     <div id='map1' class="map"></div>
+    <div *ngIf="hideMap" id='cerchio'></div>
+    <div id="zoom">
+        <button (click)="zoomIn()" id="zoomIn">+</button>
+        <button (click)="zoomOut()" id="zoomOut">-</button>
+    </div>
 </div> 

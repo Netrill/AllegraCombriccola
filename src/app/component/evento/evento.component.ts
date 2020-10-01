@@ -11,6 +11,7 @@ import { MapService } from 'src/app/service/map.service';
   styleUrls: ['./evento.component.css']
 })
 export class EventoComponent implements OnInit {
+  showForm = false;
 
   nomeEvento : String = "";
   url : String = "";
@@ -47,5 +48,9 @@ export class EventoComponent implements OnInit {
     this.inizio = this.mergeTimestamp(this.dataInizio,this.orarioInizio);
     this.fine = this.mergeTimestamp(this.dataFine,this.orarioFine);
     this.eventService.createNewEvent(this.nomeEvento,this.url,this.via,this.citta,this.cap,this.provincia,this.regione,this.tel,this.email,this.inizio,this.fine,this.descrizione);
+    this.eventService.addEventToMap(this.eventService.getEvento(),true);
+  }
+  showEventForm(isVisible:boolean) {
+    this.showForm=isVisible;
   }
 }

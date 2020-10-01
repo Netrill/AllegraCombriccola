@@ -12,6 +12,7 @@ declare var ol: any;
 export class MapComponent implements OnInit {
 
   map: any;
+  hideMap=false;
   mapService: MapService;
   eventService: EventService;
 
@@ -43,7 +44,7 @@ export class MapComponent implements OnInit {
         center: ol.proj.fromLonLat([longitudineRoma, latidudineRoma]),
         zoom: 6,
         minZoom: 6,
-        maxZoom: 18
+        maxZoom: 20
       })
     });
     this.map.on('moveend', function() {
@@ -104,6 +105,12 @@ export class MapComponent implements OnInit {
     });
     this.map.addInteraction(draggingInteraction);
     this.map.addLayer(vector);
+  }
+  zoomIn () {
+    this.map.getView().setZoom(this.map.getView().getZoom() + 1)
+  }
+  zoomOut () {
+    this.map.getView().setZoom(this.map.getView().getZoom() + -1)
   }
 }
 
