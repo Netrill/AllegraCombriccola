@@ -2,6 +2,7 @@ import { MapService } from 'src/app/service/map.service';
 import { GeoEvento } from './../../model/GeoEvento.model';
 import { Component, OnInit } from '@angular/core';
 import { EventService } from 'src/app/service/event.service';
+import { SavedEvent } from 'src/app/model/SavedEvento';
 declare var ol: any;
 
 @Component({
@@ -10,15 +11,17 @@ declare var ol: any;
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
+  
 
   map: any;
-  hideMap=false;
-  mapService: MapService;
-  eventService: EventService;
+  hideMap: boolean = false;
+  makersVisiblity: boolean;
+  saveButtonVisiblity: boolean = false;
+  cancelButtonVisiblity: boolean = false;
+  clickedId: Number;
+  clickedEvent = new SavedEvent ();
+  constructor(private mapService: MapService, private eventService: EventService) {
 
-  constructor(mapService: MapService, eventService: EventService) {
-    this.mapService = mapService;
-    this.eventService = eventService;
   }
 
   ngOnInit(): void {
@@ -37,6 +40,7 @@ export class MapComponent implements OnInit {
         color: 'black',
       }),
     });
+
     this.map = new ol.Map({
       layers: [base],
       target: 'map1',
@@ -47,6 +51,18 @@ export class MapComponent implements OnInit {
         maxZoom: 20
       })
     });
+    const self = this;
+    this.map.on('singleclick', function(evt) {
+      var coordinate = evt.coordinate;
+      var features = self.map.getFeaturesAtPixel(evt.pixel);
+      if (features && features.length > 0) {
+        var id = features[features.length - 1].getProperties()['id'];
+        if(id) {
+          self.eventService.getEventoById(id);
+        }
+      }
+    });  
+
     this.map.on('moveend', function() {
         const view = this.getView();
         const center = ol.proj.toLonLat(view.getCenter());
@@ -68,15 +84,20 @@ export class MapComponent implements OnInit {
     this.mapService.setMapComponent (this);
     this.eventService.setSavedEvents();
   }
-  public setCenterOfMap(evento) {
+  openClickedEvent(data: SavedEvent) {
+    console.log(data);
+  }
+  public setCenterAndZoomOnNewEvent(evento) {
     this.map.getView().setCenter(ol.proj.transform([evento.lng, evento.lat], 'EPSG:4326', 'EPSG:3857'));
     this.map.getView().setZoom(18);
+    this.setSaveButton(true);
+    this.setCancelButton(true);
   }
-  public addNewEventToMap(evento: GeoEvento) {
+  public addNewEventToMap(evento: GeoEvento , markerMovementInteration: boolean) {
     const punto = ol.proj.fromLonLat([evento.lng, evento.lat]);
-    const marker = new ol.geom.Point([evento.lng, evento.lat]);
     const featureMarker = new ol.Feature({
         geometry: new ol.geom.Point(punto),
+        id: evento.id
     });
     const draggingInteraction = new ol.interaction.Translate({
       features: new ol.Collection([featureMarker])
@@ -99,18 +120,61 @@ export class MapComponent implements OnInit {
         features: [featureMarker],
       }),
       style: [styleMarker],
-      name: 'marker',
-      posizione: punto,
-      id: evento.id
+      name: 'marker'
     });
-    this.map.addInteraction(draggingInteraction);
     this.map.addLayer(vector);
+    this.map.addInteraction(draggingInteraction);
   }
-  zoomIn () {
-    this.map.getView().setZoom(this.map.getView().getZoom() + 1)
+  zoomIn() {
+    this.map.getView().setZoom(this.map.getView().getZoom() + 1);
   }
-  zoomOut () {
-    this.map.getView().setZoom(this.map.getView().getZoom() + -1)
+  zoomOut() {
+    this.map.getView().setZoom(this.map.getView().getZoom() + -1);
+  }
+  removeMarkerInteration(){
+    this.map.getInteractions().pop();
+  } 
+  setMarkerVisibilityById(id: number, visibility: boolean) {
+    this.map.getLayers().forEach(function (layer) {
+      if (layer && layer.get('id')) {
+        if (layer.get('id')) {
+          if (visibility) {
+            layer.setVisible(true);
+          }
+          else {
+            layer.setVisible(false);
+          }
+        }
+      }
+    });
+  }
+  saveEvent() {
+    this.setCancelButton(false);
+    this.setSaveButton(false);
+  }
+  cancelEvent() {
+    this.setCancelButton(false);
+    this.setSaveButton(false)
+  }
+  setSaveButton(value: boolean) {
+    this.saveButtonVisiblity = value;
+  }
+  setCancelButton(value: boolean) {
+    this.cancelButtonVisiblity = value;
+  }
+  setMarkersVisibility( visibility: boolean ) {
+    this.map.getLayers().forEach(function (layer) {
+      if (layer && layer.get('name')) {
+        if (layer.get('name') === 'marker') {
+          if (visibility) {
+            layer.setVisible(true);
+          }
+          else {
+            layer.setVisible(false);
+          }
+        }
+      }
+    });
   }
 }
 

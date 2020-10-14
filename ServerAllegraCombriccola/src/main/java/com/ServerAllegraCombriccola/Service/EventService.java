@@ -1,14 +1,13 @@
 package com.ServerAllegraCombriccola.Service;
 
-import java.util.Date;
-
+import com.ServerAllegraCombriccola.Model.Evento;
 import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
-import com.ServerAllegraCombriccola.Model.Indirizzo;
 
 public interface EventService {
 	
 	boolean deletEvent (Long idEvento);
-	boolean updateEvent (String nome, String url, Date inizio, Date fine, Indirizzo indirizzo,String descrizione,String immagine);
-	long saveEvent(GeolocalizzazioneEvento geolocalizzazioneEvento, String immagine);
+	boolean updateEventById (String id,String lng,String lat);
+	long saveEvent(GeolocalizzazioneEvento geolocalizzazioneEvento, String  immagini);
 	GeolocalizzazioneEvento [] getAllEvents();
+	Evento selectEventById(String id);
 }

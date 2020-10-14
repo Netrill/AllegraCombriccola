@@ -8,6 +8,27 @@
   bottom: 10px;
   left : 46%;
 }
+#save {
+  position: absolute;
+  bottom: 10%; 
+  right : 50%;
+}
+#saveButton {
+  font-weight: bold;
+  height: 100px;
+  width: 200px;
+}
+#cancel {
+  position: absolute;
+  bottom: 10%;  
+  right : 35%;
+}
+#cancelButton {
+  font-weight: bold;
+  height: 100px;
+  width: 200px;
+  top : 10%;
+}
 #zoom button {
   background-color: Transparent;
   background-repeat:no-repeat;

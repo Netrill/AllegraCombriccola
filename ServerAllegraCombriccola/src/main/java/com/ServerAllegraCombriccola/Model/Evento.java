@@ -1,5 +1,6 @@
 package com.ServerAllegraCombriccola.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -10,7 +11,7 @@ import javax.persistence.Id;
 
 
 @Entity
-public class Evento {
+public class Evento implements Serializable{
 	@Id
 	@GeneratedValue
 	private long idEvento;
@@ -33,11 +34,11 @@ public class Evento {
 	@Column
 	private String descrizione;
 	@Column
-	private String immagine;
+	private String immaginiEvento ;
 	@Column
-	private double lng;
+	private String lng;
 	@Column
-	private double lat;
+	private String lat;
 
 	
 	public Evento () {}
@@ -47,8 +48,8 @@ public class Evento {
 
 
 	public Evento(String nome, String url, Date inizioEvento, Date fineEvento, String via, 
-			String citta, String descrizione,
-			String immagine, double lng,double lat) {
+			String citta,String cap, String provincia, String regione, String descrizione,
+			String immagini, String lng,String lat) {
 		super();
 		this.nome = nome;
 		this.url = url;
@@ -56,8 +57,11 @@ public class Evento {
 		this.fineEvento = fineEvento;
 		this.via = via;
 		this.citta = citta;
+		this.cap = cap;
+		this.provincia = provincia;
+		this.regione = regione; 
 		this.descrizione = descrizione;
-		this.immagine = immagine;
+		this.immaginiEvento = immagini;
 		this.lng=lng;
 		this.lat=lat;
 	}
@@ -135,27 +139,19 @@ public class Evento {
 		this.descrizione = descrizione;
 	}
 
-	public String getImmagine() {
-		return immagine;
-	}
-
-	public void setImmagine(String immagine) {
-		this.immagine = immagine;
-	}
-
-	public double getLng() {
+	public String getLng() {
 		return lng;
 	}
 
-	public void setLng(double lng) {
+	public void setLng(String lng) {
 		this.lng = lng;
 	}
 
-	public double getLat() {
+	public String getLat() {
 		return lat;
 	}
 
-	public void setLat(double lat) {
+	public void setLat(String lat) {
 		this.lat = lat;
 	}
 
@@ -174,6 +170,14 @@ public class Evento {
 	public void setFineEvento(Date fineEvento) {
 		this.fineEvento = fineEvento;
 	}
+	public String getImmaginiEvento() {
+		return immaginiEvento;
+	}
+
+	public void setImmaginiEvento(String immaginiEvento) {
+		this.immaginiEvento = immaginiEvento;
+	}
+	
 	
 	
 }

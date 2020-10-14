@@ -5,4 +5,10 @@
         <button (click)="zoomIn()" id="zoomIn">+</button>
         <button (click)="zoomOut()" id="zoomOut">-</button>
     </div>
+    <div *ngIf="saveButtonVisiblity" id="save">
+        <button (click)="saveEvent()" id="saveButton">Conferma posizione</button>
+    </div>
+    <div *ngIf="cancelButtonVisiblity" id="cancel">
+        <button (click)="cancelEvent()" id="cancelButton">Cancella Evento</button>
+    </div>
 </div> 

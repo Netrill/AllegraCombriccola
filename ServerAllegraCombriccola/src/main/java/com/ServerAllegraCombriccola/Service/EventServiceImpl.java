@@ -1,10 +1,11 @@
 package com.ServerAllegraCombriccola.Service;
 
-import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import com.ServerAllegraCombriccola.Dao.EventDao;
+import com.ServerAllegraCombriccola.Model.Evento;
 import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
-import com.ServerAllegraCombriccola.Model.Indirizzo;
+
 
 
 public class EventServiceImpl implements EventService{
@@ -13,8 +14,8 @@ public class EventServiceImpl implements EventService{
 	EventDao eventDao;
 	
 	@Override
-	public long saveEvent(GeolocalizzazioneEvento geolocalizzazioneEvento,String immagine) {
-		return eventDao.saveEvent(EventBuilder.createEvent(geolocalizzazioneEvento,immagine));
+	public long saveEvent(GeolocalizzazioneEvento geolocalizzazioneEvento,String  immagini) {
+		return eventDao.saveEvent(EventBuilder.createEvent(geolocalizzazioneEvento,immagini));
 		
 	}
 
@@ -23,16 +24,19 @@ public class EventServiceImpl implements EventService{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
-	public boolean updateEvent(String nome, String url, Date inizio, Date fine, Indirizzo indirizzo, String descrizione,
-			String immagine) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public GeolocalizzazioneEvento[] getAllEvents() {
 		return eventDao.getAllEvents();
+	}
+
+	@Override
+	public boolean updateEventById(String id, String lng, String lat) {
+		return eventDao.updateEventById(id,lng,lat);
+	}
+	@Override
+	public Evento selectEventById(String id) {
+
+		return eventDao.getEventById(id);
 	}
 
 }

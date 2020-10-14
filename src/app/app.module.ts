@@ -9,7 +9,7 @@ import { MapComponent } from './component/map/map.component';
 import { EventoComponent } from './component/evento/evento.component';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MapService } from './service/map.service';
 import { VetrinaComponent } from './component/vetrina/vetrina.component';
@@ -26,9 +26,10 @@ import { VetrinaComponent } from './component/vetrina/vetrina.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule ,
     AppRoutingModule
   ],
-  providers: [EventService, HttpClient,MapService,DatePipe],
+  providers: [EventService, HttpClient,MapService,DatePipe,FormBuilder],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

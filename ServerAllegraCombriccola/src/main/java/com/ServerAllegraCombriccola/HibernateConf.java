@@ -1,5 +1,9 @@
 package com.ServerAllegraCombriccola;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -9,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.ServerAllegraCombriccola.Dao.EventDao;
 import com.ServerAllegraCombriccola.Model.Evento;
@@ -41,6 +46,23 @@ public class HibernateConf {
  
         return dataSource;
     }
+	
+	@Bean
+	public Properties properties () throws IOException {
+		try (InputStream input = new FileInputStream("src//main//resources//config.properties")) {
+	        Properties prop = new Properties();
+	        prop.load(input);
+	        input.close();
+            return prop;
+		}
+	}
+	
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver multipartResolver() {
+	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+	    multipartResolver.setMaxUploadSize(10000000);
+	    return multipartResolver;
+	}
 	
 	@Bean
     public GeoService geoService() {

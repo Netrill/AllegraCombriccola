@@ -8,37 +8,41 @@ public class GeolocalizzazioneEvento {
 	private String url;
 	private Date inizio;
 	private Date fine;
-	private double lng;
-	private double lat;
+	private String lng;
+	private String lat;
 	private String via;
 	private String citta;
+	private String cap;
+	private String provincia;
+	private String regione;
 	private String descrizione;
+	private boolean salvato;
 	
 	public GeolocalizzazioneEvento () {}
 	
-	public GeolocalizzazioneEvento(double i, double j) {
+	public GeolocalizzazioneEvento(String i, String j) {
 		this.lng=i;
 		this.lat=j;
 	}
-	public GeolocalizzazioneEvento(long id ,double i, double j) {
+	public GeolocalizzazioneEvento(long id ,String i, String j) {
 		this.lng=i;
 		this.lat=j;
 		this.id=id;
 	}
 
-	public double getLng() {
+	public String getLng() {
 		return lng;
 	}
 
-	public void setLng(double lng) {
+	public void setLng(String lng) {
 		this.lng = lng;
 	}
 
-	public double getLat() {
+	public String getLat() {
 		return lat;
 	}
 
-	public void setLat(double lat) {
+	public void setLat(String lat) {
 		this.lat = lat;
 	}
 
@@ -105,6 +109,36 @@ public class GeolocalizzazioneEvento {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
-	
-	
+
+	public boolean isSalvato() {
+		return salvato;
+	}
+
+	public void setSalvato(boolean salvato) {
+		this.salvato = salvato;
+	}
+
+	public String getCap() {
+		return cap;
+	}
+
+	public void setCap(String cap) {
+		this.cap = cap;
+	}
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	public String getRegione() {
+		return regione;
+	}
+
+	public void setRegione(String regione) {
+		this.regione = regione;
+	}
 }	 

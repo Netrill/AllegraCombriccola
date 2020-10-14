@@ -1,11 +1,11 @@
-<button *ngIf="!showForm" id="creaEventoButton" (click)="showEventForm(true)">Crea il tuo evento</button>
-<form *ngIf="showForm" id="formEvento" action="http://localhost:8080/event/put" method="POST"> 
+<button *ngIf="!showForm" id="creaEventoButton" (click)="showEventForm(true)">Pubblicizza il tuo evento</button>
+<form *ngIf="showForm" id="formEvento" ng > 
     <div>
         <h1>Evento</h1>
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <input  [(ngModel)] = 'nomeEvento' type="text" class="form-control" name="nome" required="true">
+                    <input  [(ngModel)] = 'nomeEvento' type="text" class="form-control" name="nome" required minlength="4" required="true">
                     <label >Nome Evento</label>
                 </div>
                 <div class="col-md-6">
@@ -17,13 +17,25 @@
         <h2>Ubicazione</h2>
         <div class="container">
             <div class = "row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <input [(ngModel)] = 'via' type="text" class="form-control" name="via" required="true">
                     <label >Via</label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-2">
                     <input [(ngModel)] = 'citta' type="text" class="form-control" name="citta" required="true">
                     <label >Città</label>
+                </div>
+                <div class="col-md-2">
+                    <input [(ngModel)] = 'cap' type="number" class="form-control" name="cap" required="true">
+                    <label >Cap</label>
+                </div>
+                <div class="col-md-2">
+                    <input [(ngModel)] = 'provincia' type="text" class="form-control" name="provincia" required="true">
+                     <label >Provincia</label>
+                </div>
+                <div class="col-md-2">
+                    <input [(ngModel)] = 'regione' type="text" class="form-control" name="regione" required="true">
+                    <label >Regione</label>
                 </div>
             </div>
         </div>
@@ -68,10 +80,15 @@
                 <textarea [(ngModel)] = 'descrizione' class="form-control" name="descrizione" rows="10"></textarea>
             </div>
         </div>
-        <h2>Immagine</h2>
-        <div class="form-group">
-            <input type="file" class="form-control-file"  accept="image/*" name="immagine">
-        </div>
+        <h2>Immagini</h2>
+        <label class="image-upload-container btn btn-bwm">
+            <input #imageInput
+                   [(ngModel)] = 'imageLoader'
+                   name = 'immaginiCaricate'
+                   type="file" multiple
+                   accept="image/*"
+                   (change)="processFile(imageInput)">
+          </label>
         <div class="form-group">
             <input (click)="addEvent(); showEventForm(false)" class="btn btn-primary btn-lg btn-block" value="Invia il tuo evento">
         </div>

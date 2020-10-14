@@ -33,13 +33,13 @@ public class GeoServiceImpl implements GeoService {
     //http://www.mapquestapi.com/geocoding/v1/address?key=KEY&location=Washington,DC
 
 	@Override
-	public GeolocalizzazioneEvento getLongLatFromAddress(String via, String citta) {
+	public GeolocalizzazioneEvento getLongLatFromAddress(String via, String citta,String cap,String provincia,String regione) {
 	 
 		try {
  
 			
 		    URIBuilder builder = new URIBuilder(httpUrl);
-		    builder.setParameter("key", geoKey).setParameter("location", via + " " + citta + " italy");
+		    builder.setParameter("key", geoKey).setParameter("location", via + " " + citta + " " + cap + " " + provincia + " " + regione + " italy");
 
 		    HttpClient client = HttpClient.newHttpClient();
 		    HttpRequest request = HttpRequest.newBuilder()

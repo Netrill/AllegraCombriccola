@@ -1,21 +1,21 @@
 import { MapService } from 'src/app/service/map.service';
 
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { mapToMapExpression } from '@angular/compiler/src/render3/util';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { GeoEvento } from '../model/GeoEvento.model';
+import { SavedEvent } from '../model/SavedEvento';
+import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
-
-
   messageSubject = new Subject();
   client : HttpClient;
-  response = new GeoEvento();
+  geoEvento = new GeoEvento ();
+  clickedEvent = new SavedEvent();
   mapService : MapService;
   error : any;
   constructor(httpClient : HttpClient,mapService : MapService) { 
@@ -25,36 +25,69 @@ export class EventService {
   createMap() {
     this.messageSubject.next();
   }
+ 
 
-	//Coordinata putEvent (@RequestParam String nome,@RequestParam (required = false) String  url,@RequestParam Date inizio,@RequestParam Date fine,@RequestParam String via,@RequestParam String citta,@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,@RequestParam (required=false) String immagine) {
-
-
-  createNewEvent(nome , url, via, citta, cap, provincia, regione, tel, email, inizio, fine, descrizione) {
+  createNewEvent(nome,url,via,citta,cap,provincia,regione, tel, email, inizio, fine, descrizione , immaginiCaricate) {
     let body = new HttpParams();
-    body = body.set('nome', nome).set('url',url).set('via',via).set('citta',citta).set('cap',cap).set('provincia',provincia).set('regione',regione)
-          .set('tel',tel).set('email',email).set('inizio',inizio).set('fine',fine).set('descrizione',descrizione);
-    this.client.post<GeoEvento>('http://localhost:8080/event/put', body, {headers: {}}).subscribe({
-      next: data => this.addEventToMap (data, true),
+    const formData: FormData = new FormData();
+
+    formData.append('nome', nome) 
+    formData.append('url',url)
+    formData.append('via',via)
+    formData.append('citta',citta)
+    formData.append('cap',cap)
+    formData.append('provincia',provincia)
+    formData.append('regione',regione)
+    formData.append('tel',tel)
+    formData.append('email',email)
+    formData.append('inizio',inizio)
+    formData.append('fine',fine)
+    formData.append('descrizione',descrizione)
+    if (immaginiCaricate) {
+      if (immaginiCaricate[0])
+        formData.append('immagine1',immaginiCaricate[0]);
+      if (immaginiCaricate[1])
+        formData.append('immagine2',immaginiCaricate[1]);
+      if (immaginiCaricate[2])
+        formData.append('immagine3',immaginiCaricate[2]);
+    }
+    this.client.post<GeoEvento>('http://localhost:8080/event/put', formData, {headers: {}}).subscribe({
+      next: data => this.addEventToMap (data, true,true),
       error: error => console.error('There was an error!', error)}
     )
   }
-  addEventToMap (data: GeoEvento, setPosition: boolean) {
-    this.response.id = data.id;
-    this.response.lat = data.lat;
-    this.response.lng = data.lng;
-    this.mapService.addEventToMap(this.response);
+
+  getEvento () {
+    return this.geoEvento;
+  }
+
+  addEventToMap (data: GeoEvento, setPosition: boolean, nuovoEvento: boolean) {
+    this.geoEvento.id = data.id;
+    this.geoEvento.lat = data.lat;
+    this.geoEvento.lng = data.lng;
+    if (nuovoEvento === true) {
+      //Mostro solo il nuovo marker
+      this.mapService.setmarkersVisibility(false);
+    }
+    this.mapService.addEventToMap(this.geoEvento, nuovoEvento);
     if (setPosition === true) {
-      this.mapService.setCenterOfMap(this.response);
+      this.mapService.setCenterAndZoomOnNewEvent(this.geoEvento);
     }
   }
 
-  getEvento () {
-    return this.response;
+  getEventoById (id: string) {
+    var data = new HttpParams();
+    data = data.append('id',id);
+    console.log(data)
+    return this.client.get<SavedEvent>('http://localhost:8080/event/get',{'params': data}).subscribe({
+      next: data => this.mapService.openClickedEvent(data),
+      error: error => console.log(error)
+    });  
   }
   setSavedEvents () {
     this.client.get<GeoEvento []>('http://localhost:8080/event/getAll').subscribe({
-      next: data => data.forEach(dato => this.addEventToMap(dato,false)),
-      error: error => console.error('There was an error!', error)}
+      next: data => data.forEach(dato => this.addEventToMap(dato,false,false)),
+      error: error => console.error('Errore nel recupero di tutti gli eventi', error)}
     )
   }
 
