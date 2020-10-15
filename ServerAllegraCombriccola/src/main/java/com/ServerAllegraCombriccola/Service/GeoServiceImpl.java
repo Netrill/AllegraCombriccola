@@ -37,7 +37,6 @@ public class GeoServiceImpl implements GeoService {
 	 
 		try {
  
-			
 		    URIBuilder builder = new URIBuilder(httpUrl);
 		    builder.setParameter("key", geoKey).setParameter("location", via + " " + citta + " " + cap + " " + provincia + " " + regione + " italy");
 

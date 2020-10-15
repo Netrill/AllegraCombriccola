@@ -20,6 +20,9 @@ export class MapComponent implements OnInit {
   cancelButtonVisiblity: boolean = false;
   clickedId: Number;
   clickedEvent = new SavedEvent ();
+  coordinateClicked: any;
+  popupVisiblity: boolean;
+  url: any;
   constructor(private mapService: MapService, private eventService: EventService) {
 
   }
@@ -53,13 +56,18 @@ export class MapComponent implements OnInit {
     });
     const self = this;
     this.map.on('singleclick', function(evt) {
-      var coordinate = evt.coordinate;
+      self.coordinateClicked = evt.coordinate;
       var features = self.map.getFeaturesAtPixel(evt.pixel);
       if (features && features.length > 0) {
         var id = features[features.length - 1].getProperties()['id'];
         if(id) {
           self.eventService.getEventoById(id);
         }
+      }
+      else {
+        self.map.getOverlays().getArray().slice(0).forEach(function(overlay) {
+          self.map.removeOverlay(overlay);
+        });
       }
     });  
 
@@ -85,8 +93,15 @@ export class MapComponent implements OnInit {
     this.eventService.setSavedEvents();
   }
   openClickedEvent(data: SavedEvent) {
+    var popup = new ol.Overlay.Popup();
+    this.map.addOverlay(popup);
     console.log(data);
+    popup.show(this.coordinateClicked, "<img *ngIf='url' [src]='url'>");
   }
+  getHtmlPopup (info) {
+    return "" ;
+  }
+
   public setCenterAndZoomOnNewEvent(evento) {
     this.map.getView().setCenter(ol.proj.transform([evento.lng, evento.lat], 'EPSG:4326', 'EPSG:3857'));
     this.map.getView().setZoom(18);

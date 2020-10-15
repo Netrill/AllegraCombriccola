@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ServerAllegraCombriccola.Model.Evento;
+import com.ServerAllegraCombriccola.Model.EventoDTO;
 import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
 import com.ServerAllegraCombriccola.Service.EventServiceImpl;
 import com.ServerAllegraCombriccola.Service.GeoService;
@@ -45,7 +46,7 @@ public class EventiRestController {
 		return eventService.updateEventById(id,lng,lat);
 	}
 	
-	@PostMapping("/event/putEvent")
+	@PostMapping("/event/put")
 	@CrossOrigin(origins = "http://localhost:4200")
 	GeolocalizzazioneEvento putEvent (@RequestParam String nome,@RequestParam (required = false) String  url,@RequestParam String inizio,@RequestParam String fine,@RequestParam String via,@RequestParam String citta,
 			@RequestParam String cap,@RequestParam String provincia,@RequestParam String regione,@RequestParam String descrizione,
@@ -62,7 +63,7 @@ public class EventiRestController {
 			geolocalizzazioneEvento.setRegione(regione);
 			geolocalizzazioneEvento.setNome(nome);
 			geolocalizzazioneEvento.setDescrizione(descrizione);
-			String immagini = Utils.getPathImmagini(immagine1,immagine2,immagine3);
+			String immagini = Utils.getSequenzaImmagini(immagine1,immagine2,immagine3);
 			Utils.saveImageInLocalRepository((properties.getProperty("ImageRepository")),immagine1,immagine2,immagine3,properties);
 			long id= eventService.saveEvent(geolocalizzazioneEvento,immagini);
 			geolocalizzazioneEvento.setId(id);  
@@ -72,7 +73,7 @@ public class EventiRestController {
 		}
 	}
 	
-	@GetMapping("/event/getAll")
+	@GetMapping("/event/get/all")
 	@CrossOrigin(origins = "http://localhost:4200")
 	GeolocalizzazioneEvento [] getAllEvents ()  {
 		try {

@@ -1,5 +1,6 @@
 package com.ServerAllegraCombriccola.Model;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -8,10 +9,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 @Entity
-public class Evento implements Serializable{
+@Table(name = "EVENTO")
+public class EventoDTO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	private long idEvento;
@@ -40,14 +47,17 @@ public class Evento implements Serializable{
 	@Column
 	private String lat;
 
+	private File image1;
+	private File image2;
+	private File image3;
 	
-	public Evento () {}
+	public EventoDTO () {}
 	
 	
 
 
 
-	public Evento(String nome, String url, Date inizioEvento, Date fineEvento, String via, 
+	public EventoDTO(String nome, String url, Date inizioEvento, Date fineEvento, String via, 
 			String citta,String cap, String provincia, String regione, String descrizione,
 			String immagini, String lng,String lat) {
 		super();
@@ -176,6 +186,24 @@ public class Evento implements Serializable{
 
 	public void setImmaginiEvento(String immaginiEvento) {
 		this.immaginiEvento = immaginiEvento;
+	}
+	public File getImage1() {
+		return image1;
+	}
+	public void setImage1(File image1) {
+		this.image1 = image1;
+	}
+	public File getImage2() {
+		return image2;
+	}
+	public void setImage2(File image2) {
+		this.image2 = image2;
+	}
+	public File getImage3() {
+		return image3;
+	}
+	public void setImage3(File image3) {
+		this.image3 = image3;
 	}
 	
 	

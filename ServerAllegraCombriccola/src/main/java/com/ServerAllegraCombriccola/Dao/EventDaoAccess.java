@@ -1,26 +1,34 @@
 package com.ServerAllegraCombriccola.Dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.persistence.TypedQuery;
+import javax.swing.ImageIcon;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ServerAllegraCombriccola.Model.Evento;
+import com.ServerAllegraCombriccola.Model.EventoDTO;
 import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
 import com.ServerAllegraCombriccola.util.Utils;
 
 
 
-public class EventDao {
+
+public class EventDaoAccess {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	@Autowired
+	Properties properties;
 	
-	public long saveEvent(Evento evento) {
+	
+	public long saveEvent(EventoDTO evento) {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
@@ -43,7 +51,7 @@ public class EventDao {
 		try {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-			TypedQuery<GeolocalizzazioneEvento> q =session.createQuery("select NEW com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento (idEvento,lng,lat) from Evento", GeolocalizzazioneEvento.class); 
+			TypedQuery<GeolocalizzazioneEvento> q =session.createQuery("select NEW com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento (idEvento,lng,lat) from EventoDTO", GeolocalizzazioneEvento.class); 
 			List<GeolocalizzazioneEvento> list=q.getResultList();
 			session.close();
 			return Utils.fromListToArray(list);
@@ -60,7 +68,7 @@ public class EventDao {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			Evento e = (Evento) session.get(Evento.class,id);
+			EventoDTO e = (EventoDTO) session.get(EventoDTO.class,id);
 			e.setLng(lng);
 			e.setLat(lat);
 			session.getTransaction().commit();
@@ -78,8 +86,11 @@ public class EventDao {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			Evento e = (Evento) session.get(Evento.class,Long.parseLong(id, 10));
-			return e;
+			EventoDTO e = (EventoDTO) session.get(EventoDTO.class,Long.parseLong(id, 10));
+			ArrayList<ImageIcon> imageList =Utils.loadImageFromRepository(e,properties.getProperty("ImageRepository"));
+			Utils.mapResponseEvent(e, imageList);
+			session.close();
+			return  Utils.mapResponseEvent(e, imageList);
 		}
 		catch (Exception e) {
 			if (session!=null)

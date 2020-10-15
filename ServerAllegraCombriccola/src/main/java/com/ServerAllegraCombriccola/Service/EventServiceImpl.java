@@ -2,8 +2,9 @@ package com.ServerAllegraCombriccola.Service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import com.ServerAllegraCombriccola.Dao.EventDao;
+import com.ServerAllegraCombriccola.Dao.EventDaoAccess;
 import com.ServerAllegraCombriccola.Model.Evento;
+import com.ServerAllegraCombriccola.Model.EventoDTO;
 import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
 
 
@@ -11,7 +12,7 @@ import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
 public class EventServiceImpl implements EventService{
 	
 	@Autowired
-	EventDao eventDao;
+	EventDaoAccess eventDao;
 	
 	@Override
 	public long saveEvent(GeolocalizzazioneEvento geolocalizzazioneEvento,String  immagini) {

@@ -1,13 +1,24 @@
 package com.ServerAllegraCombriccola.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.ImageIcon;
+
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ServerAllegraCombriccola.Model.Evento;
+import com.ServerAllegraCombriccola.Model.EventoDTO;
 import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
+
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 public class Utils {
 	public static GeolocalizzazioneEvento [] fromListToArray(List <GeolocalizzazioneEvento> list) {
@@ -17,7 +28,7 @@ public class Utils {
 		}
 		return geolocalizzazioneEventi;
 	}
-	public static String getPathImmagini (MultipartFile immagine1,MultipartFile immagine2,MultipartFile immagine3) {
+	public static String getSequenzaImmagini (MultipartFile immagine1,MultipartFile immagine2,MultipartFile immagine3) {
 		String nomiImmagini = "";
 		if (immagine1!=null)
 			nomiImmagini = nomiImmagini + immagine1.getOriginalFilename() ;
@@ -47,5 +58,33 @@ public class Utils {
 		FileOutputStream fos = new FileOutputStream(path +"//"+ f.getOriginalFilename());
 	    byte[] mybytes = f.getBytes();
 	    fos.write(mybytes);
+	}
+	public static ArrayList<ImageIcon>  loadImageFromRepository(EventoDTO e,String path) throws IOException {
+		String nomiImmagini = e.getImmaginiEvento();
+		ArrayList<ImageIcon> imageIcon = new ArrayList <>();
+		if (nomiImmagini!=null && nomiImmagini!="") {
+			String immagine [] = nomiImmagini.split(";");
+			int i = 0;
+			for (String img : immagine) {
+				FileInputStream in=new FileInputStream((path+"//"+img.trim()));  
+				byte[] byteArray=in.readAllBytes();
+				imageIcon.add(new ImageIcon(byteArray));
+				in.close();
+			}
+		}
+		return imageIcon;
+		
+	}
+	public static Evento mapResponseEvent(EventoDTO e, ArrayList<ImageIcon> imageList) {
+		MapperManager mapperManager = new MapperManager();
+		Evento evento = mapperManager.map(e, Evento.class);	
+		int i=0;
+		for (ImageIcon img : imageList) {
+			if(i==0) {
+				evento.setImage1(img.getImage());
+			}
+		}
+		return evento;
+		
 	}
 }

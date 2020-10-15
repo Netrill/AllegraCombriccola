@@ -15,8 +15,8 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.ServerAllegraCombriccola.Dao.EventDao;
-import com.ServerAllegraCombriccola.Model.Evento;
+import com.ServerAllegraCombriccola.Dao.EventDaoAccess;
+import com.ServerAllegraCombriccola.Model.EventoDTO;
 import com.ServerAllegraCombriccola.Service.EventServiceImpl;
 import com.ServerAllegraCombriccola.Service.GeoService;
 import com.ServerAllegraCombriccola.Service.GeoServiceImpl;
@@ -31,7 +31,7 @@ public class HibernateConf {
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setHibernateProperties(hibernateProperties());
         //sessionFactory.setPackagesToScan({"com.baeldung.hibernate.bootstrap.model" });
-        sessionFactory.setAnnotatedClasses(new Class[] { Evento.class });
+        sessionFactory.setAnnotatedClasses(new Class[] { EventoDTO.class });
 
         return sessionFactory;
     }
@@ -70,8 +70,8 @@ public class HibernateConf {
     }
 	
 	@Bean
-    public EventDao eventDao() {
-        return new EventDao();
+    public EventDaoAccess eventDao() {
+        return new EventDaoAccess();
     }
 	
 	@Bean

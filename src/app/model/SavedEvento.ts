@@ -11,5 +11,8 @@ export class SavedEvent {
 	regione:string; 
 	descrizione:string;
 	lat: number;
-    lng: number;
+	lng: number;
+	image1: ImageData;
+	image2: ImageData;
+	image3: ImageData;
 }

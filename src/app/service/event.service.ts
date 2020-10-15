@@ -76,16 +76,15 @@ export class EventService {
   }
 
   getEventoById (id: string) {
-    var data = new HttpParams();
-    data = data.append('id',id);
-    console.log(data)
-    return this.client.get<SavedEvent>('http://localhost:8080/event/get',{'params': data}).subscribe({
+    var params = new HttpParams();
+    params = params.append('id',id);
+    return this.client.get<SavedEvent>('http://localhost:8080/event/get',{'params': params}).subscribe({
       next: data => this.mapService.openClickedEvent(data),
       error: error => console.log(error)
     });  
   }
   setSavedEvents () {
-    this.client.get<GeoEvento []>('http://localhost:8080/event/getAll').subscribe({
+    this.client.get<GeoEvento []>('http://localhost:8080/event/get/all').subscribe({
       next: data => data.forEach(dato => this.addEventToMap(dato,false,false)),
       error: error => console.error('Errore nel recupero di tutti gli eventi', error)}
     )
