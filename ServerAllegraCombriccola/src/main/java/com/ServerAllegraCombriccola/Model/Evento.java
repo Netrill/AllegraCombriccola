@@ -37,9 +37,9 @@ public class Evento implements Serializable{
 
 	private String lat;
 
-	private Image image1;
-	private Image image2;
-	private Image image3;
+	private byte [] image1;
+	private byte [] image2;
+	private byte [] image3;
 	
 	public Evento () {}
 
@@ -174,29 +174,30 @@ public class Evento implements Serializable{
 		this.immaginiEvento = immaginiEvento;
 	}
 
-	public Image getImage1() {
+	public byte[] getImage1() {
 		return image1;
 	}
 
-	public void setImage1(Image image1) {
+	public void setImage1(byte[] image1) {
 		this.image1 = image1;
 	}
 
-	public Image getImage2() {
+	public byte[] getImage2() {
 		return image2;
 	}
 
-	public void setImage2(Image image2) {
+	public void setImage2(byte[] image2) {
 		this.image2 = image2;
 	}
 
-	public Image getImage3() {
+	public byte[] getImage3() {
 		return image3;
 	}
 
-	public void setImage3(Image image3) {
+	public void setImage3(byte[] image3) {
 		this.image3 = image3;
 	}
+	
 	
 	
 	

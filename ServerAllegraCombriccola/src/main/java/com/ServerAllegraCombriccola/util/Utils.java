@@ -1,8 +1,6 @@
 package com.ServerAllegraCombriccola.util;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,9 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ServerAllegraCombriccola.Model.Evento;
 import com.ServerAllegraCombriccola.Model.EventoDTO;
 import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
-
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
+import com.ServerAllegraCombriccola.Model.ImageModel;
 
 public class Utils {
 	public static GeolocalizzazioneEvento [] fromListToArray(List <GeolocalizzazioneEvento> list) {
@@ -59,30 +55,40 @@ public class Utils {
 	    byte[] mybytes = f.getBytes();
 	    fos.write(mybytes);
 	}
-	public static ArrayList<ImageIcon>  loadImageFromRepository(EventoDTO e,String path) throws IOException {
+	public static ArrayList<ImageModel>  loadImageFromRepository(EventoDTO e,String path) throws IOException {
 		String nomiImmagini = e.getImmaginiEvento();
-		ArrayList<ImageIcon> imageIcon = new ArrayList <>();
+		ArrayList<ImageModel> images = new ArrayList <>();
 		if (nomiImmagini!=null && nomiImmagini!="") {
 			String immagine [] = nomiImmagini.split(";");
 			int i = 0;
 			for (String img : immagine) {
 				FileInputStream in=new FileInputStream((path+"//"+img.trim()));  
 				byte[] byteArray=in.readAllBytes();
-				imageIcon.add(new ImageIcon(byteArray));
+				ImageModel imageModel = new ImageModel();
+				imageModel.setBuffer(byteArray);
+				imageModel.setNome(img.trim());
+				images.add(imageModel);
 				in.close();
 			}
 		}
-		return imageIcon;
+		return images;
 		
 	}
-	public static Evento mapResponseEvent(EventoDTO e, ArrayList<ImageIcon> imageList) {
+	public static Evento mapResponseEvent(EventoDTO e, ArrayList<ImageModel> imageList) {
 		MapperManager mapperManager = new MapperManager();
 		Evento evento = mapperManager.map(e, Evento.class);	
 		int i=0;
-		for (ImageIcon img : imageList) {
+		for (ImageModel img : imageList) {
 			if(i==0) {
-				evento.setImage1(img.getImage());
+				evento.setImage1(img.getBuffer());
 			}
+			if(i==1) {
+				evento.setImage2(img.getBuffer());
+			}
+			if(i==2) {
+				evento.setImage3(img.getBuffer());
+			}
+			i++;
 		}
 		return evento;
 		

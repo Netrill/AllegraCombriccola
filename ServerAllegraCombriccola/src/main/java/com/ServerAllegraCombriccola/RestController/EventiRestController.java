@@ -39,7 +39,7 @@ public class EventiRestController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	 Evento geoEventByid(@RequestParam String id) {
 		return eventService.selectEventById(id);
-	}
+	}	
 	@PostMapping("/event/update")
 	@CrossOrigin(origins = "http://localhost:4200")
 	 boolean geoEventByid(@RequestParam String id,@RequestParam String lng,@RequestParam String lat ) {

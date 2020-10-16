@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.persistence.TypedQuery;
-import javax.swing.ImageIcon;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ServerAllegraCombriccola.Model.Evento;
 import com.ServerAllegraCombriccola.Model.EventoDTO;
 import com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento;
+import com.ServerAllegraCombriccola.Model.ImageModel;
 import com.ServerAllegraCombriccola.util.Utils;
 
 
@@ -87,7 +87,7 @@ public class EventDaoAccess {
 		try {
 			session = sessionFactory.openSession();
 			EventoDTO e = (EventoDTO) session.get(EventoDTO.class,Long.parseLong(id, 10));
-			ArrayList<ImageIcon> imageList =Utils.loadImageFromRepository(e,properties.getProperty("ImageRepository"));
+			ArrayList<ImageModel> imageList =Utils.loadImageFromRepository(e,properties.getProperty("ImageRepository"));
 			Utils.mapResponseEvent(e, imageList);
 			session.close();
 			return  Utils.mapResponseEvent(e, imageList);
