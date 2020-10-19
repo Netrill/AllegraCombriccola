@@ -12,7 +12,7 @@ export class SavedEvent {
 	descrizione:string;
 	lat: number;
 	lng: number;
-	image1: ImageData;
-	image2: ImageData;
-	image3: ImageData;
+	image1: Blob;
+	image2: Blob;
+	image3: Blob;
 }

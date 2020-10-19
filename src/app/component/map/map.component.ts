@@ -3,6 +3,7 @@ import { GeoEvento } from './../../model/GeoEvento.model';
 import { Component, OnInit } from '@angular/core';
 import { EventService } from 'src/app/service/event.service';
 import { SavedEvent } from 'src/app/model/SavedEvento';
+import { DomSanitizer } from '@angular/platform-browser';
 declare var ol: any;
 
 @Component({
@@ -23,7 +24,7 @@ export class MapComponent implements OnInit {
   coordinateClicked: any;
   popupVisiblity: boolean;
   url: any;
-  constructor(private mapService: MapService, private eventService: EventService) {
+  constructor(private mapService: MapService, private eventService: EventService,private sanitizer: DomSanitizer) {
 
   }
 
@@ -93,10 +94,20 @@ export class MapComponent implements OnInit {
     this.eventService.setSavedEvents();
   }
   openClickedEvent(data: SavedEvent) {
+    const self=this;
+    this.map.getOverlays().getArray().slice(0).forEach(function(overlay) {
+      self.map.removeOverlay(overlay);
+    });
+
     var popup = new ol.Overlay.Popup();
     this.map.addOverlay(popup);
-    console.log(data);
-    popup.show(this.coordinateClicked, "<img *ngIf='url' [src]='url'>");
+    var reader = new FileReader();
+      console.log(data);
+      const unsafeImageUrl = URL.createObjectURL(data.image1);
+      console.log(unsafeImageUrl);
+      this.url = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeImageUrl);
+      console.log(this.url);
+      popup.show(this.coordinateClicked, "<img [src]='"+this.url+"' style='width:400px; height:400px;' >");
   }
   getHtmlPopup (info) {
     return "" ;

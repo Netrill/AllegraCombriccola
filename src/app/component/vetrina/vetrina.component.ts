@@ -1,3 +1,4 @@
+import { MapService } from 'src/app/service/map.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vetrina.component.css']
 })
 export class VetrinaComponent implements OnInit {
-
-  constructor() { }
+  mapService : MapService;
+  constructor(mapService :MapService) { 
+    this.mapService=mapService;
+  }
 
   ngOnInit(): void {
   }
-
+  zoomInCliclked () {
+    this.mapService.zoomIn();
+  }
+  zoomOutCliclked () {
+    this.mapService.zoomOut();
+  }
 }

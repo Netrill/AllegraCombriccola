@@ -79,7 +79,7 @@ export class EventService {
     var params = new HttpParams();
     params = params.append('id',id);
     return this.client.get<SavedEvent>('http://localhost:8080/event/get',{'params': params}).subscribe({
-      next: data => this.mapService.openClickedEvent(data),
+      next: data => {data.image1 = new Blob([data.image1], {type: "image/jpeg"}),   this.mapService.openClickedEvent(data)},
       error: error => console.log(error)
     });  
   }
