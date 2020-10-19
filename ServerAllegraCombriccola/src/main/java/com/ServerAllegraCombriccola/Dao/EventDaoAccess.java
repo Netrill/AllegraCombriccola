@@ -51,7 +51,7 @@ public class EventDaoAccess {
 		try {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-			TypedQuery<GeolocalizzazioneEvento> q =session.createQuery("select NEW com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento (idEvento,lng,lat) from EventoDTO", GeolocalizzazioneEvento.class); 
+			TypedQuery<GeolocalizzazioneEvento> q =session.createQuery("select NEW com.ServerAllegraCombriccola.Model.GeolocalizzazioneEvento (idEvento,lng,lat) from EventoDTO where SALVATO=1 ", GeolocalizzazioneEvento.class); 
 			List<GeolocalizzazioneEvento> list=q.getResultList();
 			session.close();
 			return Utils.fromListToArray(list);
@@ -68,9 +68,11 @@ public class EventDaoAccess {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			EventoDTO e = (EventoDTO) session.get(EventoDTO.class,id);
+			session.beginTransaction();
+			EventoDTO e = (EventoDTO) session.get(EventoDTO.class,Long.parseLong(id, 10));
 			e.setLng(lng);
 			e.setLat(lat);
+			e.setSalvato(true);
 			session.getTransaction().commit();
 			session.close();
 			return true;

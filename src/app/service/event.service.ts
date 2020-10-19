@@ -12,9 +12,10 @@ import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
   providedIn: 'root'
 })
 export class EventService {
+
   messageSubject = new Subject();
   client : HttpClient;
-  geoEvento = new GeoEvento ();
+  geoEvento = new GeoEvento (undefined,undefined,undefined);
   clickedEvent = new SavedEvent();
   mapService : MapService;
   error : any;
@@ -28,9 +29,7 @@ export class EventService {
  
 
   createNewEvent(nome,url,via,citta,cap,provincia,regione, tel, email, inizio, fine, descrizione , immaginiCaricate) {
-    let body = new HttpParams();
     const formData: FormData = new FormData();
-
     formData.append('nome', nome) 
     formData.append('url',url)
     formData.append('via',via)
@@ -74,12 +73,22 @@ export class EventService {
       this.mapService.setCenterAndZoomOnNewEvent(this.geoEvento);
     }
   }
+  updateEvent(id:string,lng:string,lat:string) {
+    const formData: FormData = new FormData();
+    formData.append('id', id);
+    formData.append('lng',lng);
+    formData.append('lat',lat);
+    this.client.post<boolean>('http://localhost:8080/event/update', formData, {headers: {}}).subscribe({
+      next: data => data,
+      error: error => console.error('There was an error!', error)}
+    )
+  }
 
   getEventoById (id: string) {
     var params = new HttpParams();
     params = params.append('id',id);
     return this.client.get<SavedEvent>('http://localhost:8080/event/get',{'params': params}).subscribe({
-      next: data => {data.image1 = new Blob([data.image1], {type: "image/jpeg"}),   this.mapService.openClickedEvent(data)},
+      next: data => {this.mapService.openClickedEvent(data)},
       error: error => console.log(error)
     });  
   }

@@ -1,5 +1,10 @@
 export class GeoEvento {
-    id: number;
-    lat: number;
-    lng: number;
+    id: string;
+    lat: string;
+    lng: string;
+    constructor (id:string, lng:string,lat:string){
+      this.id=id;
+      this.lng=lng;
+      this.lat=lat;
+    }
   }

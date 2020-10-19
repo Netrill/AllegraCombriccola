@@ -46,7 +46,10 @@ public class EventoDTO implements Serializable{
 	private String lng;
 	@Column
 	private String lat;
+	@Column
+	private boolean salvato;
 
+	
 	private File image1;
 	private File image2;
 	private File image3;
@@ -205,7 +208,13 @@ public class EventoDTO implements Serializable{
 	public void setImage3(File image3) {
 		this.image3 = image3;
 	}
-	
+	public boolean isSalvato() {
+		return salvato;
+	}
+
+	public void setSalvato(boolean salvato) {
+		this.salvato = salvato;
+	}
 	
 	
 }

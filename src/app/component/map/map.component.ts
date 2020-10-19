@@ -1,9 +1,9 @@
 import { MapService } from 'src/app/service/map.service';
 import { GeoEvento } from './../../model/GeoEvento.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SecurityContext } from '@angular/core';
 import { EventService } from 'src/app/service/event.service';
 import { SavedEvent } from 'src/app/model/SavedEvento';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 declare var ol: any;
 
 @Component({
@@ -19,23 +19,29 @@ export class MapComponent implements OnInit {
   makersVisiblity: boolean;
   saveButtonVisiblity: boolean = false;
   cancelButtonVisiblity: boolean = false;
-  clickedId: Number;
+  clickedId: string;
   clickedEvent = new SavedEvent ();
+  lastGeoEventAdded : GeoEvento;
   coordinateClicked: any;
   popupVisiblity: boolean;
-  url: any;
-  constructor(private mapService: MapService, private eventService: EventService,private sanitizer: DomSanitizer) {
+  longitudineRoma: number;
+  latidudineRoma: number;
+  maxLongitude: number;
+  minLongitude: number;
+  maxLatitude: number;
+  minLatitude: number;
 
+  constructor(private mapService: MapService, private eventService: EventService,private sanitizer: DomSanitizer) {
+    this.longitudineRoma = 12.496366;
+    this.latidudineRoma = 41.902782;
+    this.maxLongitude = 20;
+    this.minLongitude = 6;
+    this.maxLatitude = 50;
+    this.minLatitude = 33;
   }
 
   ngOnInit(): void {
-    const longitudineRoma = 12.496366;
-    const latidudineRoma = 41.902782;
-    const maxLongitude = 20;
-    const minLongitude = 6;
-    const maxLatitude = 50;
-    const minLatitude = 33;
-
+  
     const base = new ol.layer.Tile({
       source: new ol.source.OSM(),
     });
@@ -49,7 +55,7 @@ export class MapComponent implements OnInit {
       layers: [base],
       target: 'map1',
       view: new ol.View({
-        center: ol.proj.fromLonLat([longitudineRoma, latidudineRoma]),
+        center: ol.proj.fromLonLat([this.longitudineRoma, this.latidudineRoma]),
         zoom: 6,
         minZoom: 6,
         maxZoom: 20
@@ -60,9 +66,9 @@ export class MapComponent implements OnInit {
       self.coordinateClicked = evt.coordinate;
       var features = self.map.getFeaturesAtPixel(evt.pixel);
       if (features && features.length > 0) {
-        var id = features[features.length - 1].getProperties()['id'];
-        if(id) {
-          self.eventService.getEventoById(id);
+        self.clickedId = features[features.length - 1].getProperties()['id'];
+        if(self.clickedId!=="") {
+          self.eventService.getEventoById(self.clickedId);
         }
       }
       else {
@@ -70,54 +76,67 @@ export class MapComponent implements OnInit {
           self.map.removeOverlay(overlay);
         });
       }
+      self.clickedId="";
     });  
-
     this.map.on('moveend', function() {
         const view = this.getView();
         const center = ol.proj.toLonLat(view.getCenter());
-        if (center[0] >= maxLongitude)  {
-          view.setCenter(ol.proj.fromLonLat([longitudineRoma, latidudineRoma]));
+        if (center[0] >= self.maxLongitude)  {
+          view.setCenter(ol.proj.fromLonLat([self.longitudineRoma, self.latidudineRoma]));
         }
-        if (center[0] <= minLongitude)  {
-          view.setCenter(ol.proj.fromLonLat([longitudineRoma, latidudineRoma]));
+        if (center[0] <= self.minLongitude)  {
+          view.setCenter(ol.proj.fromLonLat([self.longitudineRoma, self.latidudineRoma]));
         }
-        if (center[1] >= maxLatitude)  {
-          view.setCenter(ol.proj.fromLonLat([longitudineRoma, latidudineRoma]));
+        if (center[1] >= self.maxLatitude)  {
+          view.setCenter(ol.proj.fromLonLat([self.longitudineRoma, self.latidudineRoma]));
         }
-        if (center[1] <= minLatitude)  {
-          view.setCenter(ol.proj.fromLonLat([longitudineRoma, latidudineRoma]));
+        if (center[1] <= self.minLatitude)  {
+          view.setCenter(ol.proj.fromLonLat([self.longitudineRoma, self.latidudineRoma]));
         }
     });
-    const zoomslider = new ol.control.ZoomSlider();
-    this.map.addControl(zoomslider);
+    this.map.on("pointermove", function (evt) {
+      var hit = this.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
+          return true;
+      }); 
+      if (hit) {
+        this.getTargetElement().style.cursor = 'pointer';
+      } else {
+        var a =this.getTargetElement().style.cursor;
+        this.getTargetElement().style.cursor = '';
+      }
+  });
     this.mapService.setMapComponent (this);
     this.eventService.setSavedEvents();
   }
   openClickedEvent(data: SavedEvent) {
+
     const self=this;
+    //Elimino eventuale popup già aperto
     this.map.getOverlays().getArray().slice(0).forEach(function(overlay) {
       self.map.removeOverlay(overlay);
     });
-
+    //Creo il popup
     var popup = new ol.Overlay.Popup();
     this.map.addOverlay(popup);
-    var reader = new FileReader();
-      console.log(data);
-      const unsafeImageUrl = URL.createObjectURL(data.image1);
-      console.log(unsafeImageUrl);
-      this.url = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeImageUrl);
-      console.log(this.url);
-      popup.show(this.coordinateClicked, "<img [src]='"+this.url+"' style='width:400px; height:400px;' >");
+    
+    //Ci carico sopra l' immagine bypassato la sicurezza
+    let objectURL = 'data:image/jpeg;base64,' + data.image3;
+    const url = this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(objectURL));
+    
+    //Mostro il popup
+    popup.show(this.coordinateClicked, "<img  src="+url+" style='width:400px;height:200px;' >");
   }
   getHtmlPopup (info) {
     return "" ;
   }
 
-  public setCenterAndZoomOnNewEvent(evento) {
+  public setCenterAndZoomOnNewEvent(evento : GeoEvento) {
     this.map.getView().setCenter(ol.proj.transform([evento.lng, evento.lat], 'EPSG:4326', 'EPSG:3857'));
     this.map.getView().setZoom(18);
     this.setSaveButton(true);
-    this.setCancelButton(true);
+    this.setCancelButton(true)
+    this.setMarkerInteration(true);
+    this.lastGeoEventAdded=evento;
   }
   public addNewEventToMap(evento: GeoEvento , markerMovementInteration: boolean) {
     const punto = ol.proj.fromLonLat([evento.lng, evento.lat]);
@@ -150,6 +169,8 @@ export class MapComponent implements OnInit {
     });
     this.map.addLayer(vector);
     this.map.addInteraction(draggingInteraction);
+    this.setMarkerInteration(false);
+    
   }
   zoomIn() {
     this.map.getView().setZoom(this.map.getView().getZoom() + 1);
@@ -157,8 +178,12 @@ export class MapComponent implements OnInit {
   zoomOut() {
     this.map.getView().setZoom(this.map.getView().getZoom() + -1);
   }
-  removeMarkerInteration(){
-    this.map.getInteractions().pop();
+  setMarkerInteration(value:boolean){
+    this.map.getInteractions().forEach(function(interaction) {
+      if (interaction instanceof ol.interaction.Translate) {
+        interaction.setActive(value);
+      }
+    }, this);
   } 
   setMarkerVisibilityById(id: number, visibility: boolean) {
     this.map.getLayers().forEach(function (layer) {
@@ -175,12 +200,26 @@ export class MapComponent implements OnInit {
     });
   }
   saveEvent() {
+  
+    this.eventService.updateEvent(this.lastGeoEventAdded.id,this.lastGeoEventAdded.lng,this.lastGeoEventAdded.lat);
+    this.setCenterAndZoomOnNewEvent(this.lastGeoEventAdded);
+
+    this.eventService.setSavedEvents();
+    this.setMarkerInteration(false);
+
     this.setCancelButton(false);
     this.setSaveButton(false);
   }
   cancelEvent() {
+    
+    var view = this.map.getView();
+    view.setCenter(ol.proj.fromLonLat([this.longitudineRoma, this.latidudineRoma]));
+    view.setZoom(6); 
+    
+    this.eventService.setSavedEvents();
+    this.setMarkerInteration(false);
     this.setCancelButton(false);
-    this.setSaveButton(false)
+    this.setSaveButton(false);
   }
   setSaveButton(value: boolean) {
     this.saveButtonVisiblity = value;
