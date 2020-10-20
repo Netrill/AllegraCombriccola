@@ -49,11 +49,6 @@ public class EventoDTO implements Serializable{
 	@Column
 	private boolean salvato;
 
-	
-	private File image1;
-	private File image2;
-	private File image3;
-	
 	public EventoDTO () {}
 	
 	
@@ -189,24 +184,6 @@ public class EventoDTO implements Serializable{
 
 	public void setImmaginiEvento(String immaginiEvento) {
 		this.immaginiEvento = immaginiEvento;
-	}
-	public File getImage1() {
-		return image1;
-	}
-	public void setImage1(File image1) {
-		this.image1 = image1;
-	}
-	public File getImage2() {
-		return image2;
-	}
-	public void setImage2(File image2) {
-		this.image2 = image2;
-	}
-	public File getImage3() {
-		return image3;
-	}
-	public void setImage3(File image3) {
-		this.image3 = image3;
 	}
 	public boolean isSalvato() {
 		return salvato;

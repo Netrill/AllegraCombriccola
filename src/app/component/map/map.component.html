@@ -1,6 +1,8 @@
+<button *ngIf="!showEventFormValue" id="creaEventoButton" (click)="showEventForm(true)">Pubblicizza il tuo evento</button>
 <div id="mapContainer">
+    
     <div id='map1' class="map"></div>
-    <div *ngIf="hideMap" id='cerchio'></div>
+    <!--<div id='cerchio'></div>-->
     <div id="zoom">
         <button (click)="zoomIn()" id="zoomIn">+</button>
         <button (click)="zoomOut()" id="zoomOut">-</button>

@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { GeoEvento } from '../model/GeoEvento.model';
 import { SavedEvent } from '../model/SavedEvento';
-import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +13,11 @@ import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
 export class EventService {
 
   messageSubject = new Subject();
-  client : HttpClient;
   geoEvento = new GeoEvento (undefined,undefined,undefined);
   clickedEvent = new SavedEvent();
-  mapService : MapService;
   error : any;
-  constructor(httpClient : HttpClient,mapService : MapService) { 
-    this.client = httpClient;
-    this.mapService = mapService;
+
+  constructor(private client : HttpClient,private mapService : MapService) { 
   }
   createMap() {
     this.messageSubject.next();

@@ -1,3 +1,4 @@
+import { DatasharingService } from './../../service/datasharing.service';
 import { GeoEvento } from './../../model/GeoEvento.model';
 
 import { Component, Input, OnInit } from '@angular/core';
@@ -13,8 +14,8 @@ import { FormEvento } from 'src/app/model/FormEvento';
   styleUrls: ['./evento.component.css']
 })
 export class EventoComponent implements OnInit {
-  showForm = false;
 
+  showForm = false;
   @Input() nomeEvento : String = "";
   url : String = "";
   @Input() via : String = "";
@@ -38,10 +39,12 @@ export class EventoComponent implements OnInit {
   formBuilder: FormBuilder;
   immaginiCaricate: File[];
   
-  constructor( private eventService: EventService,public datepipe: DatePipe,mapService : MapService) { 
+  constructor( private eventService: EventService,public datepipe: DatePipe,mapService : MapService,private datasharing : DatasharingService) { 
+    this.datasharing.itemshowFormEvent.subscribe(showForm => this.showForm = showForm);
   }
 
   ngOnInit(): void {
+
     this.formBuilder = new FormBuilder ();
     this.form = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
@@ -65,7 +68,7 @@ export class EventoComponent implements OnInit {
     this.eventService.addEventToMap(this.eventService.getEvento(),true,true);
   }
   showEventForm(isVisible:boolean) {
-    this.showForm=isVisible;
+    this.datasharing.setShowFormEvent(isVisible);
   }
 
   processFile(imageInput:any) {

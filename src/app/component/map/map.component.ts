@@ -1,3 +1,4 @@
+import { DatasharingService } from './../../service/datasharing.service';
 import { MapService } from 'src/app/service/map.service';
 import { GeoEvento } from './../../model/GeoEvento.model';
 import { Component, Input, OnInit, SecurityContext } from '@angular/core';
@@ -30,8 +31,9 @@ export class MapComponent implements OnInit {
   minLongitude: number;
   maxLatitude: number;
   minLatitude: number;
+  showEventFormValue: boolean;
 
-  constructor(private mapService: MapService, private eventService: EventService,private sanitizer: DomSanitizer) {
+  constructor(private mapService: MapService, private eventService: EventService,private sanitizer: DomSanitizer,private datasharingService:DatasharingService) {
     this.longitudineRoma = 12.496366;
     this.latidudineRoma = 41.902782;
     this.maxLongitude = 20;
@@ -120,7 +122,7 @@ export class MapComponent implements OnInit {
     this.map.addOverlay(popup);
     
     //Ci carico sopra l' immagine bypassato la sicurezza
-    let objectURL = 'data:image/jpeg;base64,' + data.image3;
+    let objectURL = 'data:image/jpeg;base64,' + data.image2;
     const url = this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(objectURL));
     
     //Mostro il popup
@@ -240,6 +242,10 @@ export class MapComponent implements OnInit {
         }
       }
     });
+  }
+  showEventForm (value: boolean) {
+    this.datasharingService.setShowFormEvent(value);
+    this.hideMap=true;
   }
 }
 
