@@ -35,20 +35,18 @@ export class EventoComponent implements OnInit {
   @Input() imageLoader : any;
 
   eventForm: FormGroup;
-  form: FormGroup;
   formBuilder: FormBuilder;
   immaginiCaricate: File[];
   
   constructor( private eventService: EventService,public datepipe: DatePipe,mapService : MapService,private datasharing : DatasharingService) { 
     this.datasharing.itemshowFormEvent.subscribe(showForm => this.showForm = showForm);
   }
-
   ngOnInit(): void {
-
-    this.formBuilder = new FormBuilder ();
-    this.form = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, Validators.required],
+    this.eventForm = new FormGroup({
+      name: new FormControl( [
+        Validators.required,
+        Validators.minLength(4)
+      ]),
     });
   }
   onSubmit(): void {

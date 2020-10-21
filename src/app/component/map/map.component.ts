@@ -120,9 +120,9 @@ export class MapComponent implements OnInit {
     //Creo il popup
     var popup = new ol.Overlay.Popup();
     this.map.addOverlay(popup);
-    
+    console.log(data)
     //Ci carico sopra l' immagine bypassato la sicurezza
-    let objectURL = 'data:image/jpeg;base64,' + data.image2;
+    let objectURL = 'data:image/jpeg;base64,' + data.image1;
     const url = this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(objectURL));
     
     //Mostro il popup
