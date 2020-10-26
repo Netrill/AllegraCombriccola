@@ -13,6 +13,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MapService } from './service/map.service';
 import { VetrinaComponent } from './component/vetrina/vetrina.component';
+import { EventoFormComponent } from './component/evento-form/evento-form.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { VetrinaComponent } from './component/vetrina/vetrina.component';
     MenuComponent,
     MapComponent,
     EventoComponent,
-    VetrinaComponent
+    VetrinaComponent,
+    EventoFormComponent
   ],
   imports: [
     BrowserModule,

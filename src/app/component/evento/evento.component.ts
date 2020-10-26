@@ -5,7 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { EventService } from 'src/app/service/event.service';
 import { MapService } from 'src/app/service/map.service';
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule  } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule, EmailValidator  } from '@angular/forms';
 import { FormEvento } from 'src/app/model/FormEvento';
 
 @Component({
@@ -37,16 +37,22 @@ export class EventoComponent implements OnInit {
   eventForm: FormGroup;
   formBuilder: FormBuilder;
   immaginiCaricate: File[];
+
+  reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
   
   constructor( private eventService: EventService,public datepipe: DatePipe,mapService : MapService,private datasharing : DatasharingService) { 
     this.datasharing.itemshowFormEvent.subscribe(showForm => this.showForm = showForm);
   }
+
+
   ngOnInit(): void {
     this.eventForm = new FormGroup({
-      name: new FormControl( [
+      name: new FormControl(this.nomeEvento, [
         Validators.required,
         Validators.minLength(4)
       ]),
+      url: new FormControl (this.url,[
+        Validators.required, Validators.pattern(this.reg)])
     });
   }
   onSubmit(): void {
@@ -58,6 +64,7 @@ export class EventoComponent implements OnInit {
     let giorno = new Date(data);
     return this.datepipe.transform(new Date (giorno.toDateString() + ' ' + ora), 'HH:mm:ss dd/MM/yyyy') 
   }
+  get name() { return this.eventForm.get('name'); }
 
   addEvent() {
     this.inizio = this.mergeTimestamp(this.dataInizio,this.orarioInizio);
